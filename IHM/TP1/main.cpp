@@ -57,7 +57,7 @@ bool MyApp::OnInit()
 	m_MainFrame->CreateMyToolbar();
 	m_MainFrame->Show(TRUE);
 	
-	ManagementDialog vdlg(m_MainFrame, -1, wxT("Gestion des triangles"));
+	EpaisseurDialog vdlg(m_MainFrame, -1, wxT("Epaisseur"));
 	vdlg.ShowModal();
 	
 	return TRUE;

@@ -44,4 +44,13 @@ class ManagementDialog: public wxDialog
 		DECLARE_EVENT_TABLE()
 };
 
+class PropDialog: public wxDialog
+{
+
+	public :
+		PropDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+	private :
+		DECLARE_EVENT_TABLE()
+};
+
 #endif /* __DIALOGS_H__ */
