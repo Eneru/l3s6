@@ -16,19 +16,17 @@ enum
 	MENU_TOOLBAR,
 	MENU_VERSION,
 	TOOLBAR_TOOLS,
-	TOOLBAR_DRAW
+	TOOLBAR_DRAW,
 };
 
-class CMainFrame: public wxFrame {
-public:
-	CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
-	void CreateMyToolbar(void);
-private:
-
-	wxToolBar *m_toolbar;
-	DECLARE_EVENT_TABLE();
-
-
+class CMainFrame: public wxFrame 
+{
+	public:
+		CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
+		void CreateMyToolbar(void);
+	private:
+		wxToolBar *m_toolbar;
+		DECLARE_EVENT_TABLE();
 }; //MyFrame
 
 #endif

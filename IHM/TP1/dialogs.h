@@ -6,18 +6,42 @@
 enum
 {
 	ID_TEXT = 10000
-}
+};
 
 class VersionDialog: public wxDialog
-
 {
 
 	public :
 		VersionDialog(wxWindow *parent, wxWindowID id,const wxString &title);
-
 	private :
 		DECLARE_EVENT_TABLE()
+};
 
+class EpaisseurDialog: public wxDialog
+{
+
+	public :
+		EpaisseurDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+	private :
+		DECLARE_EVENT_TABLE()
+};
+
+class ColorDialog: public wxDialog
+{
+
+	public :
+		ColorDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+	private :
+		DECLARE_EVENT_TABLE()
+};
+
+class ManagementDialog: public wxDialog
+{
+
+	public :
+		ManagementDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+	private :
+		DECLARE_EVENT_TABLE()
 };
 
 #endif /* __DIALOGS_H__ */

@@ -54,13 +54,12 @@ bool MyApp::OnInit()
 
 	//Affichage
 	m_MainFrame->SetMenuBar(menu_bar);
-	
 	m_MainFrame->CreateMyToolbar();
-	VersionDialog vdlg(p_MainFrame, -1, wxT("Version"));
+	m_MainFrame->Show(TRUE);
+	
+	ManagementDialog vdlg(m_MainFrame, -1, wxT("Gestion des triangles"));
 	vdlg.ShowModal();
 	
-	m_MainFrame->Show(TRUE);
-
 	return TRUE;
 } 
 

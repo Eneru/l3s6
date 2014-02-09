@@ -12,8 +12,7 @@ END_EVENT_TABLE()
 
 
 
-CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size)
-: wxFrame((wxFrame *)NULL, -1, title, pos, size) 
+CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame((wxFrame *)NULL, -1, title, pos, size) 
 {
 } //constructor
 
