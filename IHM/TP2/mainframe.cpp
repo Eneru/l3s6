@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <wx/wx.h>
-#include <wx/accel.h>
-
 #include "mainframe.h"
 
 
@@ -16,7 +11,7 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(MENU_COLOR, CMainFrame::OnColor)
 	EVT_MENU(MENU_TRIANGLE_MANAGEMENT, CMainFrame::OnTriangle)
 	EVT_MENU(MENU_VERSION, CMainFrame::OnVersion)
-	EVT_MENU(TOOLBAR_TOOLS, CMainFrame::OnToolBar)
+	EVT_MENU(MENU_TOOLBAR, CMainFrame::OnToolBar)
 END_EVENT_TABLE()
 
 
@@ -73,27 +68,38 @@ void CMainFrame::OnQuit(wxCommandEvent& event)
 
 void CMainFrame::OnThickness(wxCommandEvent& event)
 {
-	
+	EpaisseurDialog vdlg(m_toolbar, -1, wxT("Epaisseur"));
+	vdlg.ShowModal();
 }
 
 void CMainFrame::OnColor(wxCommandEvent& event)
 {
-	
+	ColorDialog vdlg(m_toolbar, -1, wxT("Couleur"));
+	vdlg.ShowModal();
 }
 
 void CMainFrame::OnTriangle(wxCommandEvent& event)
 {
+	m_toolbar
 	
+	ManagementDialog vdlg(m_toolbar, -1, wxT("Gestion de triangles"));
+	vdlg.ShowModal();
 }
 
 void CMainFrame::OnVersion(wxCommandEvent& event)
 {
-	
+	VersionDialog vdlg(m_toolbar, -1, wxT("Version"));
+	vdlg.ShowModal();
 }
 
 void CMainFrame::OnToolBar(wxCommandEvent& event)
 {
+	wxToolBar *toolbar = GetToolBar();
 	
+	if (!event.IsChecked())
+		toolbar->Hide();
+	else
+		toolbar->Show();
 }
 
 

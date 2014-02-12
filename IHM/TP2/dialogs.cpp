@@ -1,7 +1,3 @@
-#include <wx/wx.h>
-#include <wx/accel.h>
-#include <wx/spinctrl.h>
-
 #include "dialogs.h"
 
 BEGIN_EVENT_TABLE(VersionDialog, wxDialog)
@@ -32,7 +28,7 @@ EpaisseurDialog::EpaisseurDialog( wxWindow *parent, wxWindowID id, const wxStrin
 {
 	wxBoxSizer *item0 = new wxBoxSizer( wxVERTICAL );
 	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle epaisseur de trait"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-	wxSlider *item2 = new wxSlider(this, wxID_ANY, 1, 1, 10, wxPoint(-1,-1), wxSize(125, 50), wxSL_LABELS | wxSL_HORIZONTAL, wxDefaultValidator, wxT("slider"));
+	wxSlider *item2 = new wxSlider(this, SLIDER_EPAISSEUR, 1, 1, 10, wxPoint(-1,-1), wxSize(125, 50), wxSL_LABELS | wxSL_HORIZONTAL, wxDefaultValidator, wxT("slider"));
 	wxButton *item3 = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
 	
 	item0->Add( item1, 0, wxALIGN_CENTRE|wxALL, 5 );
@@ -56,7 +52,7 @@ ColorDialog::ColorDialog( wxWindow *parent, wxWindowID id, const wxString &title
 	//Initialisation
 	wxBoxSizer *item0 = new wxBoxSizer( wxVERTICAL );
 	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle couleur"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-	wxRadioBox *item2 = new wxRadioBox( this, wxID_ANY, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
+	wxRadioBox *item2 = new wxRadioBox( this, BOITE_COULEUR, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
 	wxButton *item3 = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
 	
 	//Ajout texte+radiobox+boutton
@@ -88,11 +84,11 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 	wxStaticText *texte = new wxStaticText( this, ID_TEXT, wxT("Liste des triangles"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	
 	//Liste
-	wxListBox *list = new wxListBox( this, wxID_ANY, wxDefaultPosition, wxSize(-1,-1), 3, strs8, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
+	wxListBox *list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 3, strs8, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
 	
 	//Bouttons
-	wxButton *prop = new wxButton( this, wxID_ANY, wxT("Proprietes"), wxDefaultPosition);
-	wxButton *del = new wxButton( this, wxID_ANY, wxT("Supprimer"), wxDefaultPosition);
+	wxButton *prop = new wxButton( this, B_PROP, wxT("Proprietes"), wxDefaultPosition);
+	wxButton *del = new wxButton( this, B_SUPPR, wxT("Supprimer"), wxDefaultPosition);
 	wxButton *okay = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
 	boutton->Add( prop, 0, wxALIGN_CENTRE|wxALL, 5 );
 	boutton->Add( del, 0, wxALIGN_CENTRE|wxALL, 5 );
@@ -131,15 +127,15 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	wxBoxSizer *prop_color = new wxBoxSizer( wxHORIZONTAL );
 	
 	//Prop
-	wxTextCtrl *id_triangle = new wxTextCtrl( this, wxID_ANY, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
-	wxSpinCtrl *epaisseur = new wxSpinCtrl( this, wxID_ANY, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
+	wxTextCtrl *id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
+	wxSpinCtrl *epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
 	prop->Add( id_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( id_triangle, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur, 0, wxALIGN_CENTRE|wxALL, 2 );
 	
 	//Prop + Couleur
-	wxRadioBox *couleur = new wxRadioBox( this, wxID_ANY, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
+	wxRadioBox *couleur = new wxRadioBox( this, BOITE_COULEUR2, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
 	prop_color->Add( prop, 0, wxALIGN_CENTRE|wxALL, 5 );
 	prop_color->Add( couleur, 0, wxALIGN_CENTRE|wxALL, 5 );
 	

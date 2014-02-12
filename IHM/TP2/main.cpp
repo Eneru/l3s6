@@ -1,5 +1,3 @@
-
-#include "wx/wx.h" 
 #include "mainframe.h"
 #include "dialogs.h"
 
@@ -50,7 +48,7 @@ bool MyApp::OnInit()
 	
 	//Menu d'affichage
 	display_menu->AppendCheckItem(MENU_TOOLBAR, wxT("Barre d'outils"));
-	display_menu->Check(MENU_TOOLBAR,FALSE);
+	display_menu->Check(MENU_TOOLBAR,true);
 
 	//Affichage
 	m_MainFrame->SetMenuBar(menu_bar);

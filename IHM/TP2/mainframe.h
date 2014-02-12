@@ -2,7 +2,11 @@
 #ifndef __MAINFRAME_H__
 #define __MAINFRAME_H__
 
-#include "wx/wx.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <wx/wx.h>
+#include <wx/accel.h>
+#include "dialogs.h"
 
 enum
 {
@@ -35,6 +39,7 @@ class CMainFrame: public wxFrame
 		void OnColor(wxCommandEvent& event);
 		void OnTriangle(wxCommandEvent& event);
 		void OnVersion(wxCommandEvent& event);
+		void OnToolBar(wxCommandEvent& event);
 }; //MyFrame
 
 #endif
