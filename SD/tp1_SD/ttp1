@@ -1,0 +1,27 @@
+NAME="TP1"
+compr () {
+ ARCH="$1"
+ shift
+ \rm -f ${ARCH}.tgz ${ARCH}.zip
+ tar cvzof ${ARCH}.tgz $*
+# zip -r -9 ${ARCH}.zip $*
+} 
+remove() { rm -f *~ *.class *.o \#* */*~ */*.class */\#*;}
+cd $NAME
+remove;
+for i in *
+do
+  if (test -d $i); then
+      cd $i	
+      echo $PWD
+      make clean
+      remove;
+      ls -tla
+      cd ..
+  fi
+done
+cd ..
+set -v
+compr ${NAME} ${0} ${NAME}/Me_Lire.txt ${NAME}/PremierExemple ${NAME}/DiviseExercice ${NAME}/EncodeExercice
+compr Corr_${NAME} ${0} ${NAME}/Me_Lire.txt ${NAME}/Correc*
+compr Tout_${NAME} ${0} ${NAME}
