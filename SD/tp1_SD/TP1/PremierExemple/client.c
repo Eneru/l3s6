@@ -38,22 +38,20 @@ int main (int argc, char **argv) {
  Questions :
 
 1) Ligne 7, pourquoi declare'e la variable 'res' static ?
+   Réponse : de sorte que la variable utilisée dans la fonction soit globale
 
 2) Expliquez pourquoi l'affichage au niveau du client est
    different selon que l'on utilise une SPARC ou un PC.
+   amd64 est en little indian à l'inverse de SPARC qui est en big indian.
 
 3) Lignes 56 et 57, comprendre la declaration de type qui
    est faite.
 
 4) Pourquoi la valeur finale de (*n) est differente
    sur le serveur et sur le client ?
+   Car la valeur de retour est mis dans res et non dans n, donc n n'est pas modifié.
 
 5) Ecrire une application client/serveur permettant de 
    calculer le quotient et le reste de la division de 
    deux nombres en un seul appel distant.
-
-
-
-
-
 */

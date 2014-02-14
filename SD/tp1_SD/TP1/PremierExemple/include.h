@@ -19,5 +19,3 @@ typedef monboolean (*pointeur_fonction) (XDR *, void *,...);
 #define PROCNUM 1
 
 #endif /* INCRPC */
-
-

@@ -32,5 +32,3 @@ Affichage :
   serveur: variable n (fin) : 1094861637,
   serveur: variable res : 1094861637
 */
-
-
