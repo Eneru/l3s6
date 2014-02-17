@@ -1,4 +1,5 @@
 #include "dialogs.h"
+#include "mainframe.h"
 
 BEGIN_EVENT_TABLE(VersionDialog, wxDialog)
 END_EVENT_TABLE ()
@@ -22,6 +23,7 @@ VersionDialog::VersionDialog( wxWindow *parent, wxWindowID id, const wxString &t
 }
 
 BEGIN_EVENT_TABLE(EpaisseurDialog, wxDialog)
+	EVT_COMMAND_SCROLL(SLIDER_EPAISSEUR, changeSlider)
 END_EVENT_TABLE ()
 
 EpaisseurDialog::EpaisseurDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
@@ -39,6 +41,11 @@ EpaisseurDialog::EpaisseurDialog( wxWindow *parent, wxWindowID id, const wxStrin
 	this->SetSizer( item0 );
 	item0->Fit( this );
 	item0->SetSizeHints( this );
+}
+
+void EpaisseurDialog::changeSlider(wxCommandEvent& event)
+{
+	
 }
 
 BEGIN_EVENT_TABLE(ColorDialog, wxDialog)
@@ -68,6 +75,8 @@ ColorDialog::ColorDialog( wxWindow *parent, wxWindowID id, const wxString &title
 }
 
 BEGIN_EVENT_TABLE(ManagementDialog, wxDialog)
+	EVT_BUTTON(B_PROP, ManagementDialog::OnProp)
+	EVT_BUTTON(B_SUPPR, ManagementDialog::OnSuppr)
 END_EVENT_TABLE ()
 
 ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
@@ -84,7 +93,7 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 	wxStaticText *texte = new wxStaticText( this, ID_TEXT, wxT("Liste des triangles"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	
 	//Liste
-	wxListBox *list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 3, strs8, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
+	list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 3, strs8, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
 	
 	//Bouttons
 	wxButton *prop = new wxButton( this, B_PROP, wxT("Proprietes"), wxDefaultPosition);
@@ -109,6 +118,17 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 	main->SetSizeHints( this );
 }
 
+void ManagementDialog::OnProp(wxCommandEvent& event)
+{
+	PropDialog pdlg(this, -1, wxT("Proprietes"));		
+	pdlg.ShowModal();
+}
+
+void ManagementDialog::OnSuppr(wxCommandEvent& event)
+{
+	
+}
+
 BEGIN_EVENT_TABLE(PropDialog, wxDialog)
 END_EVENT_TABLE ()
 
@@ -128,14 +148,14 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	
 	//Prop
 	wxTextCtrl *id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
-	wxSpinCtrl *epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
+	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
 	prop->Add( id_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( id_triangle, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur, 0, wxALIGN_CENTRE|wxALL, 2 );
 	
 	//Prop + Couleur
-	wxRadioBox *couleur = new wxRadioBox( this, BOITE_COULEUR2, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
+	couleur = new wxRadioBox( this, BOITE_COULEUR2, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
 	prop_color->Add( prop, 0, wxALIGN_CENTRE|wxALL, 5 );
 	prop_color->Add( couleur, 0, wxALIGN_CENTRE|wxALL, 5 );
 	

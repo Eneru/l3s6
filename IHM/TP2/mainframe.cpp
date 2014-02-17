@@ -1,5 +1,5 @@
 #include "mainframe.h"
-
+#include "dialogs.h"
 
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
@@ -68,22 +68,33 @@ void CMainFrame::OnQuit(wxCommandEvent& event)
 
 void CMainFrame::OnThickness(wxCommandEvent& event)
 {
-	EpaisseurDialog vdlg(m_toolbar, -1, wxT("Epaisseur"));
-	vdlg.ShowModal();
+	EpaisseurDialog tdlg(m_toolbar, -1, wxT("Epaisseur"));
+	tdlg.ShowModal();
 }
 
 void CMainFrame::OnColor(wxCommandEvent& event)
 {
-	ColorDialog vdlg(m_toolbar, -1, wxT("Couleur"));
-	vdlg.ShowModal();
+	ColorDialog cdlg(m_toolbar, -1, wxT("Couleur"));
+	cdlg.ShowModal();
 }
 
 void CMainFrame::OnTriangle(wxCommandEvent& event)
 {
-	m_toolbar
+	wxString strs8[] = { wxT("triangle 1"), wxT("triangle 2")};
 	
-	ManagementDialog vdlg(m_toolbar, -1, wxT("Gestion de triangles"));
-	vdlg.ShowModal();
+	ManagementDialog mdlg(m_toolbar, -1, wxT("Gestion de triangles"));
+	
+	//Suppression des éléments de la liste
+	mdlg.list->Clear();
+	
+	//Ajout de triangle 1 et 2
+	mdlg.list->Append(strs8[0]);
+	mdlg.list->Append(strs8[1]);
+	
+	mdlg.list->SetSelection(1);
+	
+	//Affichage
+	mdlg.ShowModal();
 }
 
 void CMainFrame::OnVersion(wxCommandEvent& event)

@@ -28,9 +28,16 @@ class CMainFrame: public wxFrame
 	public:
 		CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 		void CreateMyToolbar(void);
+		
+		unsigned int epaisseurtraitcourante;
+		wxColour * couleurcourante;
+		bool is_drawing;
+		
 	private:
 		wxToolBar *m_toolbar;
+		
 		DECLARE_EVENT_TABLE();
+		
 		void OnNew(wxCommandEvent& event);
 		void OnOpen(wxCommandEvent& event);
 		void OnSave(wxCommandEvent& event);

@@ -32,6 +32,7 @@ class EpaisseurDialog: public wxDialog
 
 	public :
 		EpaisseurDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		void changeSlider(wxCommandEvent& event);
 	private :
 		DECLARE_EVENT_TABLE()
 };
@@ -50,6 +51,9 @@ class ManagementDialog: public wxDialog
 
 	public :
 		ManagementDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		wxListBox *list;
+		void OnProp(wxCommandEvent& event);
+		void OnSuppr(wxCommandEvent& event);
 	private :
 		DECLARE_EVENT_TABLE()
 };
@@ -59,6 +63,8 @@ class PropDialog: public wxDialog
 
 	public :
 		PropDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		wxSpinCtrl *epaisseur;
+		wxRadioBox *couleur;
 	private :
 		DECLARE_EVENT_TABLE()
 };
