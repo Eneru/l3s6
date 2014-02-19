@@ -29,13 +29,12 @@ class CMainFrame: public wxFrame
 		CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 		void CreateMyToolbar(void);
 		
+		//Attributs
 		unsigned int epaisseurtraitcourante;
-		wxColour * couleurcourante;
+		const wxColour * couleurcourante;
 		bool is_drawing;
 		
-	private:
-		wxToolBar *m_toolbar;
-		
+	private:		
 		DECLARE_EVENT_TABLE();
 		
 		void OnNew(wxCommandEvent& event);
@@ -47,6 +46,10 @@ class CMainFrame: public wxFrame
 		void OnTriangle(wxCommandEvent& event);
 		void OnVersion(wxCommandEvent& event);
 		void OnToolBar(wxCommandEvent& event);
+		void OnDraw(wxCommandEvent& event);
+		
+		//Attributs
+		wxToolBar *m_toolbar;
 }; //MyFrame
 
 #endif

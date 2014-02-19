@@ -4,6 +4,8 @@
 class MyApp: public wxApp 
 {
 	virtual bool OnInit();
+	
+	//Attribut
 	CMainFrame *m_MainFrame;
 };
 
@@ -41,7 +43,7 @@ bool MyApp::OnInit()
 	options_menu->Append(MENU_THICKNESS, wxT("Epaisseur de trait"));
 	options_menu->Append(MENU_COLOR, wxT("Couleur"));
 	options_menu->Append(MENU_TRIANGLE_MANAGEMENT, wxT("Gestion des triangles"));
-	options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
+	options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
 
 	//Menu d'aide
 	help_menu->Append(MENU_VERSION, wxT("Version"));

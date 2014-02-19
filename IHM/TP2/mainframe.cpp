@@ -12,12 +12,16 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(MENU_TRIANGLE_MANAGEMENT, CMainFrame::OnTriangle)
 	EVT_MENU(MENU_VERSION, CMainFrame::OnVersion)
 	EVT_MENU(MENU_TOOLBAR, CMainFrame::OnToolBar)
+	EVT_TOOL(TOOLBAR_DRAW, CMainFrame::OnDraw)
 END_EVENT_TABLE()
 
 
 
 CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size) : wxFrame((wxFrame *)NULL, -1, title, pos, size) 
 {
+	epaisseurtraitcourante = 5;
+	couleurcourante = wxRED;
+	is_drawing = false;
 } //constructor
 
 void CMainFrame::CreateMyToolbar(void)
@@ -113,7 +117,10 @@ void CMainFrame::OnToolBar(wxCommandEvent& event)
 		toolbar->Show();
 }
 
-
+void CMainFrame::OnDraw(wxCommandEvent& event)
+{
+	is_drawing = !is_drawing;
+}
 
 
 

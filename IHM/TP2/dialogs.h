@@ -4,6 +4,7 @@
 #include <wx/wx.h>
 #include <wx/accel.h>
 #include <wx/spinctrl.h>
+#include <wx/slider.h>
 
 enum
 {
@@ -32,7 +33,10 @@ class EpaisseurDialog: public wxDialog
 
 	public :
 		EpaisseurDialog(wxWindow *parent, wxWindowID id,const wxString &title);
-		void changeSlider(wxCommandEvent& event);
+		void changeSlider(wxScrollEvent& event);
+		
+		//Attribut
+		wxSlider * item2;
 	private :
 		DECLARE_EVENT_TABLE()
 };
@@ -42,6 +46,10 @@ class ColorDialog: public wxDialog
 
 	public :
 		ColorDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		void changeCouleur(wxCommandEvent& event);
+		
+		//Attribut
+		wxRadioBox * item2;
 	private :
 		DECLARE_EVENT_TABLE()
 };
@@ -51,9 +59,11 @@ class ManagementDialog: public wxDialog
 
 	public :
 		ManagementDialog(wxWindow *parent, wxWindowID id,const wxString &title);
-		wxListBox *list;
 		void OnProp(wxCommandEvent& event);
 		void OnSuppr(wxCommandEvent& event);
+		
+		//Attribut
+		wxListBox *list;
 	private :
 		DECLARE_EVENT_TABLE()
 };
@@ -63,8 +73,11 @@ class PropDialog: public wxDialog
 
 	public :
 		PropDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		
+		//Attributs
 		wxSpinCtrl *epaisseur;
 		wxRadioBox *couleur;
+		wxTextCtrl *id_triangle;
 	private :
 		DECLARE_EVENT_TABLE()
 };

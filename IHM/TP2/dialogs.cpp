@@ -23,46 +23,20 @@ VersionDialog::VersionDialog( wxWindow *parent, wxWindowID id, const wxString &t
 }
 
 BEGIN_EVENT_TABLE(EpaisseurDialog, wxDialog)
-	EVT_COMMAND_SCROLL(SLIDER_EPAISSEUR, changeSlider)
+	EVT_COMMAND_SCROLL(SLIDER_EPAISSEUR, EpaisseurDialog::changeSlider)
 END_EVENT_TABLE ()
 
 EpaisseurDialog::EpaisseurDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
 {
-	wxBoxSizer *item0 = new wxBoxSizer( wxVERTICAL );
-	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle epaisseur de trait"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-	wxSlider *item2 = new wxSlider(this, SLIDER_EPAISSEUR, 1, 1, 10, wxPoint(-1,-1), wxSize(125, 50), wxSL_LABELS | wxSL_HORIZONTAL, wxDefaultValidator, wxT("slider"));
-	wxButton *item3 = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
-	
-	item0->Add( item1, 0, wxALIGN_CENTRE|wxALL, 5 );
-	item0->Add( item2, 0, wxALIGN_CENTRE|wxALL, 5 );
-	item0->Add( item3, 0, wxALIGN_CENTRE|wxALL, 5 );
-	
-	this->SetAutoLayout( TRUE );
-	this->SetSizer( item0 );
-	item0->Fit( this );
-	item0->SetSizeHints( this );
-}
-
-void EpaisseurDialog::changeSlider(wxCommandEvent& event)
-{
-	
-}
-
-BEGIN_EVENT_TABLE(ColorDialog, wxDialog)
-END_EVENT_TABLE ()
-
-ColorDialog::ColorDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
-{
-	//RadioBox choices
-	wxString strs8[] = { wxT("Rouge"), wxT("Vert"), wxT("Bleu")};
+	CMainFrame * courant = (CMainFrame *)GetParent();
 	
 	//Initialisation
 	wxBoxSizer *item0 = new wxBoxSizer( wxVERTICAL );
-	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle couleur"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
-	wxRadioBox *item2 = new wxRadioBox( this, BOITE_COULEUR, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
+	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle epaisseur de trait"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+	item2 = new wxSlider(this, SLIDER_EPAISSEUR, courant->epaisseurtraitcourante, 1, 10, wxPoint(-1,-1), wxSize(125, 50), wxSL_LABELS | wxSL_HORIZONTAL, wxDefaultValidator, wxT("slider"));
 	wxButton *item3 = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
 	
-	//Ajout texte+radiobox+boutton
+	//Ajout Texte + boutton + radibox
 	item0->Add( item1, 0, wxALIGN_CENTRE|wxALL, 5 );
 	item0->Add( item2, 0, wxALIGN_CENTRE|wxALL, 5 );
 	item0->Add( item3, 0, wxALIGN_CENTRE|wxALL, 5 );
@@ -72,6 +46,64 @@ ColorDialog::ColorDialog( wxWindow *parent, wxWindowID id, const wxString &title
 	this->SetSizer( item0 );
 	item0->Fit( this );
 	item0->SetSizeHints( this );
+}
+
+void EpaisseurDialog::changeSlider(wxScrollEvent& event)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	courant->epaisseurtraitcourante = item2->GetValue();
+}
+
+BEGIN_EVENT_TABLE(ColorDialog, wxDialog)
+	EVT_RADIOBOX(BOITE_COULEUR, ColorDialog::changeCouleur)
+END_EVENT_TABLE ()
+
+ColorDialog::ColorDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
+	//RadioBox choices
+	wxString strs8[] = { wxT("Rouge"), wxT("Vert"), wxT("Bleu")};
+	
+	//Initialisation
+	wxBoxSizer *item0 = new wxBoxSizer( wxVERTICAL );
+	wxStaticText *item1 = new wxStaticText( this, ID_TEXT, wxT("Choisir la nouvelle couleur"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE );
+	item2 = new wxRadioBox( this, BOITE_COULEUR, wxT("Couleur"), wxPoint(-1, -1), wxSize(-1, -1), 3, strs8, 0, wxRA_SPECIFY_ROWS, wxDefaultValidator, wxT("radioBox"));
+	wxButton *item3 = new wxButton( this, wxID_OK, wxT("OK"), wxDefaultPosition);
+	
+	//Ajout texte+radiobox+boutton
+	item0->Add( item1, 0, wxALIGN_CENTRE|wxALL, 5 );
+	item0->Add( item2, 0, wxALIGN_CENTRE|wxALL, 5 );
+	item0->Add( item3, 0, wxALIGN_CENTRE|wxALL, 5 );
+	
+	//Initialisation couleur
+	if (courant->couleurcourante == wxRED)
+		item2->SetSelection(0);
+	else if (courant->couleurcourante == wxGREEN)
+		item2->SetSelection(1);
+	else if (courant->couleurcourante == wxBLUE)
+		item2->SetSelection(2);
+	
+	//Affichage
+	this->SetAutoLayout( TRUE );
+	this->SetSizer( item0 );
+	item0->Fit( this );
+	item0->SetSizeHints( this );
+}
+
+void ColorDialog::changeCouleur(wxCommandEvent& event)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	switch (item2->GetSelection())
+	{
+		case 0 : courant->couleurcourante = wxRED; break;
+		
+		case 1 : courant->couleurcourante = wxGREEN; break;
+		
+		case 2 : courant->couleurcourante = wxBLUE; break;
+		
+		default : courant->couleurcourante = wxBLACK; break;
+	}
 }
 
 BEGIN_EVENT_TABLE(ManagementDialog, wxDialog)
@@ -120,7 +152,8 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 
 void ManagementDialog::OnProp(wxCommandEvent& event)
 {
-	PropDialog pdlg(this, -1, wxT("Proprietes"));		
+	PropDialog pdlg(this, -1, wxT("Proprietes"));
+	pdlg.id_triangle->ChangeValue(list->GetStringSelection());
 	pdlg.ShowModal();
 }
 
@@ -147,7 +180,7 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	wxBoxSizer *prop_color = new wxBoxSizer( wxHORIZONTAL );
 	
 	//Prop
-	wxTextCtrl *id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
+	id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
 	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
 	prop->Add( id_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( id_triangle, 0, wxALIGN_CENTRE|wxALL, 2 );
