@@ -37,7 +37,7 @@ bool MyApp::OnInit()
 	file_menu->Append(MENU_OPEN, wxT("Ouvrir\tCtrl-O"));
 	file_menu->Append(MENU_SAVE, wxT("Sauvegarder\tCtrl-S"));
 	file_menu->AppendSeparator();
-	file_menu->Append(MENU_QUIT, wxT("Quitter\tCtrl-Alt-Shift-T"));
+	file_menu->Append(MENU_QUIT, wxT("Quitter\tCtrl-X"));
 	
 	//Menu d'options
 	options_menu->Append(MENU_THICKNESS, wxT("Epaisseur de trait"));
