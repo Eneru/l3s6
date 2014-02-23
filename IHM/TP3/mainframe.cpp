@@ -1,5 +1,6 @@
 #include "mainframe.h"
 #include "dialogs.h"
+using namespace std;
 
 
 BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
@@ -58,7 +59,78 @@ void CMainFrame::OnNew(wxCommandEvent& event)
 
 void CMainFrame::OnOpen(wxCommandEvent& event)
 {
+	//Fichier à ouvrir
+	wxString utility[] = {wxT("Choisir le fichier à ouvrir"), wxEmptyString, wxT("TRI files (*.tri)|*.tri")};
 	
+	wxFileDialog dial(this, utility[0], utility[1], utility[1], utility[2], wxOPEN | wxFILE_MUST_EXIST);
+	
+	if (dial.ShowModal() == wxID_OK)
+	{
+		ifstream fo(dial.GetPath().fn_str(), ios::in);
+	
+		//Si l'ouverture du fichier a raté
+		if (!fo)
+		{
+			wxString errormsg, caption;
+			errormsg.Printf(wxT("Unable to open file "));
+			errormsg.Append(dial.GetPath());
+			caption.Printf(wxT("Erreur"));
+			wxMessageDialog msg(this, errormsg, caption, wxOK | wxCENTRE | wxICON_ERROR);
+			msg.ShowModal();
+			return ;
+		}
+
+		//On ajoute le nombre de triangles du fichier
+		fo >> num_tri;
+		
+		//Si le nombre de triangles dépasse 5 on relève l'erreur
+		if (num_tri > 5)
+		{
+			wxString errormsg, caption;
+			errormsg.Printf(wxT("Il y a une limite de 5 triangles par fichier"));
+			caption.Printf(wxT("Erreur"));
+			wxMessageDialog msg(this, errormsg, caption, wxOK | wxCENTRE | wxICON_ERROR);
+			msg.ShowModal();
+			return ;
+		}
+	
+		point pt1[num_tri], pt2[num_tri], pt3[num_tri];
+		int roug[num_tri], ver[num_tri], ble[num_tri];
+		wxColour * col[num_tri];
+		float larg[num_tri];
+	
+		//On parcourt cette boucle pour chaque triangle à créer
+		for (int i = 0; i<num_tri ;i++)
+		{
+			//On ajoute les points
+			fo >> pt1[i].x >> pt1[i].y >> pt2[i].x >> pt2[i].y >> pt3[i].x >> pt3[i].y;
+			//On ajoute les taux de RGB
+			fo >> roug[i] >> ver[i] >> ble[i];
+			//On ajoute l'épaisseur
+			fo >> larg[i];
+			
+			//On crée la couleur de notre triangle
+			col[i] = new wxColour(roug[i],ver[i], ble[i]);
+			
+			//On teste si une couleur est mauvaise pour toute de suite arrêter de lire le fichier corrompu
+			if (roug[i] < 0 || roug[i] > 255 || ver[i] < 0 || ver[i] > 255 || ble[i] < 0 || ble[i] > 255)
+			{
+				wxString errormsg, caption;
+				errormsg.Printf(wxT("Le format des couleurs est mauvais (entre 0 et 255)"));
+				caption.Printf(wxT("Erreur"));
+				wxMessageDialog msg(this, errormsg, caption, wxOK | wxCENTRE | wxICON_ERROR);
+				msg.ShowModal();
+				return ;
+			}
+		}
+		
+		for (int i = 0; i<num_tri ;i++)
+		{
+			//On crée le triangle
+			tab_tri[i] = new Triangle(pt1[i],pt2[i],pt3[i],col[i],larg[i]);
+		}
+		options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
+	}
 }
 
 void CMainFrame::OnSave(wxCommandEvent& event)

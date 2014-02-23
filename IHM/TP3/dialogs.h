@@ -1,10 +1,14 @@
 #ifndef __DIALOGS_H__
 #define __DIALOGS_H__
 
+#include <iostream>
+#include <fstream>
 #include <wx/wx.h>
 #include <wx/accel.h>
 #include <wx/spinctrl.h>
 #include <wx/slider.h>
+#include <wx/filedlg.h>
+#include "triangle.h"
 
 enum
 {

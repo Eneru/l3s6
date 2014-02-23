@@ -1,4 +1,3 @@
-
 #ifndef __MAINFRAME_H__
 #define __MAINFRAME_H__
 
@@ -21,7 +20,7 @@ enum
 	MENU_TOOLBAR,
 	MENU_VERSION,
 	TOOLBAR_TOOLS,
-	TOOLBAR_DRAW,
+	TOOLBAR_DRAW
 };
 
 class CMainFrame: public wxFrame 
@@ -30,12 +29,19 @@ class CMainFrame: public wxFrame
 		CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& size);
 		void CreateMyToolbar(void);
 		
+		//Attributs de base du main
+		wxMenuBar *menu_bar;
+		wxMenu *file_menu;
+		wxMenu *display_menu;
+		wxMenu *options_menu;
+		wxMenu *help_menu;
+		
 		//Attributs
 		unsigned int epaisseurtraitcourante;
 		const wxColour * couleurcourante;
 		bool is_drawing;
 		int num_tri;
-		Triangle [5] tab_tri;
+		Triangle * tab_tri [5];
 		
 	private:		
 		DECLARE_EVENT_TABLE();

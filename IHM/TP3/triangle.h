@@ -1,6 +1,8 @@
 #ifndef __TRIANGLE_H__
 #define __TRIANGLE_H__
 
+#include <wx/colour.h>
+
 typedef struct 
 {
 	float x;	
@@ -11,14 +13,15 @@ typedef struct
 // Define a new triangle class
 class Triangle
 {
-public:
-	point p1;
-	point p2;
-	point p3;
-
-	wxColour colour;
-
-	float thickness;
+	public:
+		Triangle(point x, point y, point z, wxColour * color, float largeur);
+	
+		//Attributs
+		point p1;
+		point p2;
+		point p3;
+		wxColour * colour;
+		float thickness;
 };
 
 

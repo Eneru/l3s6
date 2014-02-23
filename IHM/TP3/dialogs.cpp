@@ -203,3 +203,9 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	main->Fit( this );
 	main->SetSizeHints( this );
 }
+
+
+
+
+
+
