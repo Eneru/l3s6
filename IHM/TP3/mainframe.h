@@ -41,9 +41,9 @@ class CMainFrame: public wxFrame
 		unsigned int epaisseurtraitcourante;
 		const wxColour * couleurcourante;
 		bool is_drawing;
-		int num_tri;
+		unsigned int num_tri;
 		Triangle * tab_tri [5];
-		const wxString * liste_nom_triangle [5];
+		wxString liste_nom_triangle [5];
 		unsigned int num_triangle_courant;
 		
 	private:		
@@ -63,5 +63,4 @@ class CMainFrame: public wxFrame
 		//Attributs
 		wxToolBar *m_toolbar;
 }; //MyFrame
-
 #endif

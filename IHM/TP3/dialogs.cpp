@@ -121,7 +121,7 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 	wxStaticText *texte = new wxStaticText( this, ID_TEXT, wxT("Liste des triangles"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	
 	//Liste
-	list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 0, NULL, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
+	list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 0, NULL, wxLB_SINGLE | wxLB_NEEDED_SB, wxDefaultValidator, wxT("listBox"));
 	
 	//Bouttons
 	wxButton *prop = new wxButton( this, B_PROP, wxT("Proprietes"), wxDefaultPosition);
@@ -234,7 +234,16 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 
 void PropDialog::OnValidProp(wxCommandEvent& event)
 {
-	CMainFrame * courant = (CMainFrame *)GetParent();
+	ManagementDialog * mana_courant = (ManagementDialog *)GetParent();
+	
+	CMainFrame * courant = (CMainFrame *)GetParent()->GetParent();
+	
+	//Assigne le nouveau nom
+	if (!id_triangle->IsEmpty())
+	{
+		mana_courant->list->SetString(courant->num_triangle_courant, id_triangle->GetLineText(0));
+		courant->liste_nom_triangle[courant->num_triangle_courant] = id_triangle->GetLineText(0);
+	}
 	
 	//Assigne la nouvelle épaisseur
 	courant->tab_tri[courant->num_triangle_courant]->thickness = (float)epaisseur->GetValue();

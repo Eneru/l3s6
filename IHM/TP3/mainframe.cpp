@@ -23,8 +23,6 @@ CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& 
 	couleurcourante = wxRED;
 	is_drawing = false;
 	num_tri = 0;
-	for (int i = 0 ; i<5 ; i++)
-		liste_nom_triangle[i] = new wxString();
 } //constructor
 
 void CMainFrame::CreateMyToolbar(void)
@@ -129,17 +127,24 @@ void CMainFrame::OnOpen(wxCommandEvent& event)
 			}
 		}
 		
-		wxString tri = wxT("triangle");
-		
 		for (int i = 0; i<num_tri ;i++)
-		{
-			char chiff = (char)i;
-			wxString ajout = chiff;
-			
+		{	
 			//On crée le triangle
 			tab_tri[i] = new Triangle(pt1[i],pt2[i],pt3[i],col[i],larg[i]);
-			liste_nom_triangle[i]+=(tri);
-			liste_nom_triangle[i]+=(ajout);
+			switch (i)
+			{
+				case 0 : liste_nom_triangle[i] = wxT("triangle1"); break;
+				
+				case 1 : liste_nom_triangle[i] = wxT("triangle2"); break;
+				
+				case 2 : liste_nom_triangle[i] = wxT("triangle3"); break;
+				
+				case 3 : liste_nom_triangle[i] = wxT("triangle4"); break;
+				
+				case 4 : liste_nom_triangle[i] = wxT("triangle5"); break;
+				
+				default : break;
+			}				
 		}
 		
 		if (num_tri>0)
@@ -230,7 +235,7 @@ void CMainFrame::OnTriangle(wxCommandEvent& event)
 	
 	for (int i=0; i<num_tri; i++)
 	{
-		mdlg.list->Append(*liste_nom_triangle[i]);
+		mdlg.list->Append(liste_nom_triangle[i]);
 	}
 	
 	mdlg.list->SetSelection(0);
