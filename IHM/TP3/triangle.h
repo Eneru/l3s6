@@ -20,7 +20,7 @@ class Triangle
 		point p1;
 		point p2;
 		point p3;
-		wxColour * colour;
+		const wxColour * colour;
 		float thickness;
 };
 

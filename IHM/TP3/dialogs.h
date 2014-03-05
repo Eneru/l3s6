@@ -9,6 +9,7 @@
 #include <wx/slider.h>
 #include <wx/filedlg.h>
 #include "triangle.h"
+#include "mainframe.h"
 
 enum
 {
@@ -22,6 +23,7 @@ enum
 	S_CONTROLE,
 	BOITE_COULEUR2
 };
+
 
 class VersionDialog: public wxDialog
 {
@@ -77,6 +79,7 @@ class PropDialog: public wxDialog
 
 	public :
 		PropDialog(wxWindow *parent, wxWindowID id,const wxString &title);
+		void OnValidProp(wxCommandEvent& event);
 		
 		//Attributs
 		wxSpinCtrl *epaisseur;

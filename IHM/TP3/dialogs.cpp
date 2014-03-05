@@ -1,5 +1,4 @@
 #include "dialogs.h"
-#include "mainframe.h"
 
 BEGIN_EVENT_TABLE(VersionDialog, wxDialog)
 END_EVENT_TABLE ()
@@ -113,9 +112,6 @@ END_EVENT_TABLE ()
 
 ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
 {
-	//List choices
-	wxString strs8[] = { wxT("triangle 0"), wxT("triangle 1"), wxT("triangle 2")};
-	
 	//Boites
 	wxBoxSizer *main = new wxBoxSizer( wxHORIZONTAL );
 	wxBoxSizer *gtriangle = new wxBoxSizer( wxVERTICAL );
@@ -125,7 +121,7 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 	wxStaticText *texte = new wxStaticText( this, ID_TEXT, wxT("Liste des triangles"), wxDefaultPosition, wxDefaultSize, wxALIGN_LEFT );
 	
 	//Liste
-	list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 3, strs8, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
+	list = new wxListBox( this, LISTE_TRIANGLE, wxDefaultPosition, wxSize(-1,-1), 0, NULL, wxLB_SORT, wxDefaultValidator, wxT("listBox"));
 	
 	//Bouttons
 	wxButton *prop = new wxButton( this, B_PROP, wxT("Proprietes"), wxDefaultPosition);
@@ -152,6 +148,10 @@ ManagementDialog::ManagementDialog( wxWindow *parent, wxWindowID id, const wxStr
 
 void ManagementDialog::OnProp(wxCommandEvent& event)
 {
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
+	courant->num_triangle_courant = list->FindString(list->GetStringSelection());
+	
 	PropDialog pdlg(this, -1, wxT("Proprietes"));
 	pdlg.id_triangle->ChangeValue(list->GetStringSelection());
 	pdlg.ShowModal();
@@ -159,14 +159,34 @@ void ManagementDialog::OnProp(wxCommandEvent& event)
 
 void ManagementDialog::OnSuppr(wxCommandEvent& event)
 {
+	CMainFrame * courant = (CMainFrame *)GetParent();
 	
+	courant->num_triangle_courant = list->FindString(list->GetStringSelection());
+	
+	//On décalle les triangles dans les tableaux
+	for (int i = courant->num_triangle_courant; i<courant->num_tri-1; i++)
+	{
+		courant->tab_tri[i]=courant->tab_tri[i+1];
+		courant->liste_nom_triangle[i]=courant->liste_nom_triangle[i+1];
+	}
+	
+	//On diminue le nombre de triangles
+	courant->num_tri-=1;
+	
+	if (courant->num_tri == 0)
+	{
+		courant->options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
+	}
 }
 
 BEGIN_EVENT_TABLE(PropDialog, wxDialog)
+	EVT_BUTTON(wxID_OK, PropDialog::OnValidProp)
 END_EVENT_TABLE ()
 
 PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) : wxDialog( parent, id, title)
 {
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
 	//RadioBox choices
 	wxString strs8[] = { wxT("Rouge"), wxT("Vert"), wxT("Bleu")};
 	
@@ -181,7 +201,7 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	
 	//Prop
 	id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
-	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, 2, wxT("spinctrl"));
+	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 100, courant->tab_tri[courant->num_triangle_courant]->thickness, wxT("spinctrl"));
 	prop->Add( id_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( id_triangle, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
@@ -197,6 +217,14 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	main->Add( prop_color, 0, wxALIGN_CENTRE|wxALL, 6 );
 	main->Add( okay, 0, wxALIGN_CENTRE|wxALL, 6 );
 	
+	//On initialise les bonnes couleurs
+	if(courant->tab_tri[courant->num_triangle_courant]->colour == wxRED)
+		couleur->SetSelection(0);
+	else if(courant->tab_tri[courant->num_triangle_courant]->colour == wxGREEN)
+		couleur->SetSelection(1);
+	else if(courant->tab_tri[courant->num_triangle_courant]->colour == wxBLUE)
+		couleur->SetSelection(2);
+	
 	//Affichage
 	this->SetAutoLayout( TRUE );
 	this->SetSizer( main );
@@ -204,6 +232,25 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	main->SetSizeHints( this );
 }
 
+void PropDialog::OnValidProp(wxCommandEvent& event)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
+	//Assigne la nouvelle épaisseur
+	courant->tab_tri[courant->num_triangle_courant]->thickness = (float)epaisseur->GetValue();
+	
+	//Assigne la nouvelle couleur
+	switch (couleur->GetSelection())
+	{
+		case 0 : courant->tab_tri[courant->num_triangle_courant]->colour = wxRED; break;
+		
+		case 1 : courant->tab_tri[courant->num_triangle_courant]->colour = wxGREEN; break;
+		
+		case 2 : courant->tab_tri[courant->num_triangle_courant]->colour = wxBLUE; break;
+		
+		default : courant->tab_tri[courant->num_triangle_courant]->colour = wxBLACK; break;
+	}
+}
 
 
 

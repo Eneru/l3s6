@@ -1,5 +1,4 @@
 #include "mainframe.h"
-#include "dialogs.h"
 using namespace std;
 
 
@@ -24,6 +23,8 @@ CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& 
 	couleurcourante = wxRED;
 	is_drawing = false;
 	num_tri = 0;
+	for (int i = 0 ; i<5 ; i++)
+		liste_nom_triangle[i] = new wxString();
 } //constructor
 
 void CMainFrame::CreateMyToolbar(void)
@@ -54,7 +55,11 @@ void CMainFrame::CreateMyToolbar(void)
 
 void CMainFrame::OnNew(wxCommandEvent& event)
 {
-	
+	epaisseurtraitcourante = 5;
+	couleurcourante = wxRED;
+	is_drawing = false;
+	options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
+	num_tri = 0;
 }
 
 void CMainFrame::OnOpen(wxCommandEvent& event)
@@ -124,18 +129,79 @@ void CMainFrame::OnOpen(wxCommandEvent& event)
 			}
 		}
 		
+		wxString tri = wxT("triangle");
+		
 		for (int i = 0; i<num_tri ;i++)
 		{
+			char chiff = (char)i;
+			wxString ajout = chiff;
+			
 			//On crée le triangle
 			tab_tri[i] = new Triangle(pt1[i],pt2[i],pt3[i],col[i],larg[i]);
+			liste_nom_triangle[i]+=(tri);
+			liste_nom_triangle[i]+=(ajout);
 		}
-		options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
+		
+		if (num_tri>0)
+			options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
 	}
 }
 
 void CMainFrame::OnSave(wxCommandEvent& event)
 {
+	//Fichier à sauvegarder
+	wxString utility[] = {wxT("Entrer le nom du fichier de sauvegarde"), wxEmptyString, wxT("TRI files (*.tri)|*.tri")};
 	
+	wxFileDialog dial(this, utility[0], utility[1], utility[1], utility[2], wxSAVE | wxOVERWRITE_PROMPT);
+	
+	if (dial.ShowModal() == wxID_OK)
+	{
+		ofstream fs((char *)dial.GetPath().c_str(), ios::out);
+	
+		//Si la sauvgarde du fichier a raté
+		if (!fs)
+		{
+			wxString errormsg, caption;
+			errormsg.Printf(wxT("Unable to save file "));
+			errormsg.Append(dial.GetPath());
+			caption.Printf(wxT("Erreur"));
+			wxMessageDialog msg(this, errormsg, caption, wxOK | wxCENTRE | wxICON_ERROR);
+			msg.ShowModal();
+			return ;
+		}
+		
+		//Si le nombre de triangles dépasse 5 on relève l'erreur
+		if (num_tri > 5)
+		{
+			wxString errormsg, caption;
+			errormsg.Printf(wxT("Il y a une limite de 5 triangles par fichier"));
+			caption.Printf(wxT("Erreur"));
+			wxMessageDialog msg(this, errormsg, caption, wxOK | wxCENTRE | wxICON_ERROR);
+			msg.ShowModal();
+			return ;
+		}
+		
+		//On ajoute le nombre de triangles du fichier
+		fs << num_tri << endl << endl;
+	
+		int r,g,b;
+		
+		//On parcourt cette boucle pour chaque triangle à sauvegarder
+		for (int i = 0; i<num_tri ;i++)
+		{
+			//On ajoute les points
+			fs << tab_tri[i]->p1.x << tab_tri[i]->p1.y << tab_tri[i]->p2.x << tab_tri[i]->p2.y << tab_tri[i]->p3.x << tab_tri[i]->p3.y << endl;
+			//On ajoute les taux de RGB
+			r = (int)tab_tri[i]->colour->Red();
+			g = (int)tab_tri[i]->colour->Green();
+			b = (int)tab_tri[i]->colour->Blue();
+			
+			fs << r << g << b << endl;
+			
+			//On ajoute l'épaisseur
+			fs << tab_tri[i]->thickness << endl << endl;
+		}
+	}
 }
 
 void CMainFrame::OnQuit(wxCommandEvent& event)
@@ -156,19 +222,18 @@ void CMainFrame::OnColor(wxCommandEvent& event)
 }
 
 void CMainFrame::OnTriangle(wxCommandEvent& event)
-{
-	wxString strs8[] = { wxT("triangle 1"), wxT("triangle 2")};
-	
+{	
 	ManagementDialog mdlg(m_toolbar, -1, wxT("Gestion de triangles"));
 	
-	//Suppression des éléments de la liste
 	mdlg.list->Clear();
 	
-	//Ajout de triangle 1 et 2
-	mdlg.list->Append(strs8[0]);
-	mdlg.list->Append(strs8[1]);
 	
-	mdlg.list->SetSelection(1);
+	for (int i=0; i<num_tri; i++)
+	{
+		mdlg.list->Append(*liste_nom_triangle[i]);
+	}
+	
+	mdlg.list->SetSelection(0);
 	
 	//Affichage
 	mdlg.ShowModal();

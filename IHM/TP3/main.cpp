@@ -1,5 +1,4 @@
 #include "mainframe.h"
-#include "dialogs.h"
 
 class MyApp: public wxApp 
 {

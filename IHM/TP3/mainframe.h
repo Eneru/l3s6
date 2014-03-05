@@ -1,12 +1,13 @@
 #ifndef __MAINFRAME_H__
 #define __MAINFRAME_H__
 
+#include <wx/string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <wx/wx.h>
 #include <wx/accel.h>
 #include "dialogs.h"
-#include "triangle.h"
+#include <wx/listctrl.h>
 
 enum
 {
@@ -42,6 +43,8 @@ class CMainFrame: public wxFrame
 		bool is_drawing;
 		int num_tri;
 		Triangle * tab_tri [5];
+		const wxString * liste_nom_triangle [5];
+		unsigned int num_triangle_courant;
 		
 	private:		
 		DECLARE_EVENT_TABLE();
