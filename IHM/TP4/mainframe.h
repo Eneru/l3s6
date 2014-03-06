@@ -7,6 +7,7 @@
 #include <wx/wx.h>
 #include <wx/accel.h>
 #include "dialogs.h"
+#include "openglcanvas.h"
 #include <wx/listctrl.h>
 
 enum
@@ -45,6 +46,9 @@ class CMainFrame: public wxFrame
 		Triangle tab_tri [5];
 		wxString liste_nom_triangle [5];
 		unsigned int num_triangle_courant;
+		
+		//Attributs from OpenGL
+		OpenGLCanvas * oglc;
 		
 	private:		
 		DECLARE_EVENT_TABLE();

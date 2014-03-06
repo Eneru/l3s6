@@ -23,6 +23,7 @@ CMainFrame::CMainFrame(const wxString& title, const wxPoint& pos, const wxSize& 
 	couleurcourante = wxRED;
 	is_drawing = false;
 	num_tri = 0;
+	oglc = new OpenGLCanvas (this, wxID_ANY);
 } //constructor
 
 void CMainFrame::CreateMyToolbar(void)
