@@ -22,7 +22,7 @@ Exercice 1 :  Hello de Lu
 Dans le repertoire MessageExercice, votre premier code RMI.
 Voila un exemple simple d'appel java RMI. Vous devez le completer
 pour qu'il fonctionne (grace au cours !), puis le compiler et 
-l'executer. Dans un premier temps lancer toute les commandes sur 
+l'executer. Dans un premier temps lancer toutes les commandes sur 
 votre propre ordinateur. Dans un second temps, placer le serveur 
 et le client sur deux machines differentes (parmi les machines 
 dista[1-20] en fonctionnement). 
@@ -62,9 +62,6 @@ Vous devez le compiler puis le faire fonctionner.
 	rmiregistry 2002 &
 	(ou sous windows : start rmiregistry 2002)
    puis lancer le serveur 
-	java AnnuaireImpl 2002 &
-	(ou sous windows : start java AnnuaireImpl 2002)
-	
 2) lancer le client sur la meme machine (votre machine).
    Remarquer les parametres passe's dans le fichier
    AppletClient.html.
@@ -100,7 +97,7 @@ Vous devez le compiler puis le faire fonctionner.
    Pour resoudre le probleme de droit que cela pose :
  $ appletviewer -J-Djava.security.policy=../TelephoneTelecharge/java.policy AppletClient.html
 
-Exercice 3 : Les classes genere'es par rmic
+Exercice 3 : Les classes generées par rmic
 -------------------------------------------
 
 Rendez-vous dans le repertoire MessageClone.

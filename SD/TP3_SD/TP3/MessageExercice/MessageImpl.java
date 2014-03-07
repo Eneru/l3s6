@@ -8,6 +8,6 @@ public class MessageImpl
     public MessageImpl () throws RemoteException {super();};
     public String messageDistant() 
 	throws RemoteException { 
-	return( ??? );
+	return( "Message : cou²" );
     }
 }
