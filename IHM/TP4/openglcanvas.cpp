@@ -39,6 +39,8 @@ void OpenGLCanvas::OnEraseBackground(wxEraseEvent& event)
 
 void OpenGLCanvas::Draw()
 {
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
 	glMatrixMode( GL_PROJECTION );
 	glLoadIdentity();
 	int w, h;
@@ -48,4 +50,27 @@ void OpenGLCanvas::Draw()
 	glLoadIdentity();
 	glClearColor( .3f, .4f, .6f, 1 );
 	glClear( GL_COLOR_BUFFER_BIT);
+	
+	for (int i = 0; i<courant->num_tri; i++)
+	{
+		glColor3ui(courant->tab_tri[i].colour->Red(),courant->tab_tri[i].colour->Green(),courant->tab_tri[i].colour->Blue())
+		glBegin(GL_TRIANGLE)
+			glVertex2i(courant->tab_tri[i].p1.x,courant->tab_tri[i].p1.y);
+			glVertex2i(courant->tab_tri[i].p2.x,courant->tab_tri[i].p2.y);
+			glVertex2i(courant->tab_tri[i].p3.x,courant->tab_tri[i].p3.y);
+		glEnd();
+	}
+	
+	for (int i = 0; i<courant->num_tri; i++)
+	{
+		glColor3ui(0,0,0);
+		glBegin(GL_LINES)
+			glLineWidth(courant->tab_tri[i].thickness);
+			glVertex2i(courant->tab_tri[i].p1.x,courant->tab_tri[i].p1.y);
+			glVertex2i(courant->tab_tri[i].p2.x,courant->tab_tri[i].p2.y);
+			glVertex2i(courant->tab_tri[i].p3.x,courant->tab_tri[i].p3.y);
+		glEnd();
+	}
+	
+	glFlush();
 }
