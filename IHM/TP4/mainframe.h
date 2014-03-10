@@ -10,6 +10,7 @@
 #include "openglcanvas.h"
 #include <wx/listctrl.h>
 
+
 enum
 {
 	MENU_NEW,
@@ -39,7 +40,7 @@ class CMainFrame: public wxFrame
 		wxMenu *help_menu;
 		
 		//Attributs
-		unsigned int epaisseurtraitcourante;
+		float epaisseurtraitcourante;
 		const wxColour * couleurcourante;
 		bool is_drawing;
 		unsigned int num_tri;
@@ -49,6 +50,8 @@ class CMainFrame: public wxFrame
 		
 		//Attributs from OpenGL
 		OpenGLCanvas * oglc;
+		
+		void detogglisation();
 		
 	private:		
 		DECLARE_EVENT_TABLE();

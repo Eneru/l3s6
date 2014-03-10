@@ -78,70 +78,111 @@ void OpenGLCanvas::Draw()
 
 void OpenGLCanvas::OnMouseMove(wxMouseEvent& event)
 {
+	Draw();
 	CMainFrame * courant = (CMainFrame *)GetParent();
-	if (courant->num_tri == 5 || etape == 0 || !courant->is_drawing)
-		return;
-	point pt;
-	switch(etape)
+	if (courant->num_tri >= 5 || etape == 0 || !courant->is_drawing)
 	{
-		case 1 :pt.x = event.GetX();
-				pt.y = event.GetY();
-				glLineWidth(courant->epaisseurtraitcourante);
-				glColor3ui(0,0,0);
-				glBegin(GL_LINES);
-					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
-					glVertex2f(pt.x,pt.y);
-				glEnd();
-				glFlush();break;
-		case 2 :pt.x = event.GetX();
-				pt.y = event.GetY();
-				glLineWidth(courant->epaisseurtraitcourante);
-				glColor3f(courant->tab_tri[courant->num_tri].colour->Red(),courant->tab_tri[courant->num_tri].colour->Green(),courant->tab_tri[courant->num_tri].colour->Blue());
-				glBegin(GL_TRIANGLES);
-					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
-					glVertex2f(courant->tab_tri[courant->num_tri].p2.x,courant->tab_tri[courant->num_tri].p3.y);
-					glVertex2f(pt.x,pt.y);
-				glEnd();
-				glFlush();
-				break;
-	}
-}
-
-void OpenGLCanvas::OnLeftUp(wxMouseEvent& event)
-{
-	CMainFrame * courant = (CMainFrame *)GetParent();
-	if (!courant->is_drawing)
+		etape=0;
 		return;
-	point pt;
-	switch(etape)
-	{
-		case 0 :pt.x = event.GetX();
-				pt.y = event.GetY();
-				courant->tab_tri[courant->num_tri].p1.x = pt.x;
-				courant->tab_tri[courant->num_tri].p1.y = pt.y; break;
-		case 1 :pt.x = event.GetX();
-				pt.y = event.GetY();
-				courant->tab_tri[courant->num_tri].p2.x = pt.x;
-				courant->tab_tri[courant->num_tri].p2.y = pt.y; break;
-		case 2 :pt.x = event.GetX();
-				pt.y = event.GetY();
-				courant->tab_tri[courant->num_tri].p3.x = pt.x;
-				courant->tab_tri[courant->num_tri].p3.y = pt.y;
-				etape=0;
-				courant->num_tri++; break;
 	}
 	
+	int w, h;
+	GetClientSize(&w, &h);
+	
+	switch(etape)
+	{
+		case 1 :glColor3ui(0,0,0);
+				glLineWidth(courant->epaisseurtraitcourante);
+				glBegin(GL_LINES);
+					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
+					glVertex2f(360*(event.m_x-w/2)/w,360*(h/2-event.m_y)/h);
+				glEnd();
+				glFlush();break;
+				
+		case 2 :courant->tab_tri[courant->num_tri].colour = courant->couleurcourante;
+				int r,g,b;
+				r = (int)courant->tab_tri[courant->num_tri].colour->Red();
+				g = (int)courant->tab_tri[courant->num_tri].colour->Green();
+				b = (int)courant->tab_tri[courant->num_tri].colour->Blue();
+				glColor3ui(r,g,b);
+				glBegin(GL_TRIANGLES);
+					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
+					glVertex2f(courant->tab_tri[courant->num_tri].p2.x,courant->tab_tri[courant->num_tri].p2.y);
+					glVertex2f(360*(event.m_x-w/2)/w,360*(h/2-event.m_y)/h);
+				glEnd();
+				glFlush();break;
+	}
+	SwapBuffers();
+}
+
+bool OpenGLCanvas::est_dans(wxString s)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	for (int i = 0; i<courant->num_tri; i++)
+	{
+		if (s.Contains(courant->liste_nom_triangle[i]))
+		{
+			return true;
+		}
+	}
+	return false;
 }
 
 void OpenGLCanvas::OnLeftDown(wxMouseEvent& event)
 {
 	CMainFrame * courant = (CMainFrame *)GetParent();
-	if (!courant->is_drawing)
+	if (courant->num_tri >= 5 && courant->is_drawing)
+	{
+		courant->detogglisation();
+		etape=0;
 		return;
+	}
+	
+	if(!courant->is_drawing)
+	{
+		etape=0;
+		return;
+	}
+	
+	wxString buffer = wxT("triangle");
+	buffer<<(courant->num_tri+1);
+				
+	int cpt = 0;
+	
+	int w, h;
+	GetClientSize(&w, &h);
+	
 	switch(etape)
 	{
-		case 0 : etape++; break;
-		
-		case 1 : etape++; break;
+		case 0 :courant->tab_tri[courant->num_tri].p1.x = 360*(event.m_x-w/2)/w;
+				courant->tab_tri[courant->num_tri].p1.y = 360*(h/2-event.m_y)/h;
+				etape++; break;
+				
+		case 1 :courant->tab_tri[courant->num_tri].p2.x = 360*(event.m_x-w/2)/w;
+				courant->tab_tri[courant->num_tri].p2.y = 360*(h/2-event.m_y)/h;
+				etape++; break;
+				
+		case 2 :courant->tab_tri[courant->num_tri].p3.x = 360*(event.m_x-w/2)/w;
+				courant->tab_tri[courant->num_tri].p3.y = 360*(h/2-event.m_y)/h;
+				etape=0;
+				
+				// Test si le nom est déjà utilisé
+				while (est_dans(buffer))
+				{
+					cpt++;
+					buffer = wxT("triangle");
+					buffer<<(cpt);
+				}
+				courant->liste_nom_triangle[courant->num_tri] = buffer;
+				courant->num_tri++;
+				courant->options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
+				break;
+				
+		default : break;
 	}
+	
+}
+
+void OpenGLCanvas::OnLeftUp(wxMouseEvent& event)
+{
 }

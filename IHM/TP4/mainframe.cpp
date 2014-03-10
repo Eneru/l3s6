@@ -147,6 +147,8 @@ void CMainFrame::OnOpen(wxCommandEvent& event)
 		{
 			options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
 		}
+		detogglisation();
+		is_drawing = false;
 	}
 }
 
@@ -206,6 +208,8 @@ void CMainFrame::OnSave(wxCommandEvent& event)
 			fs << largeu << endl << endl;
 		}
 		fs.close();
+		detogglisation();
+		is_drawing = false;
 	}
 }
 
@@ -255,17 +259,30 @@ void CMainFrame::OnToolBar(wxCommandEvent& event)
 	wxToolBar *toolbar = GetToolBar();
 	
 	if (!event.IsChecked())
+	{
 		toolbar->Hide();
+		SendSizeEvent(); // permet d'éviter le décalage de la disparition de la barre
+	}
 	else
+	{
 		toolbar->Show();
+		SendSizeEvent(); // permet d'éviter le décalage de la barre
+	}
 }
 
 void CMainFrame::OnDraw(wxCommandEvent& event)
 {
-	is_drawing = !is_drawing;
-	if (is_drawing)
-		num_tri = 0;
+	if (num_tri>=5)
+	{
+		detogglisation();
+		is_drawing = false;
+	}
+	else
+		is_drawing = !is_drawing;
 }
 
-
+void CMainFrame::detogglisation()
+{
+	m_toolbar->ToggleTool(TOOLBAR_DRAW, false);
+}
 

@@ -209,7 +209,7 @@ PropDialog::PropDialog( wxWindow *parent, wxWindowID id, const wxString &title) 
 	
 	//Prop
 	id_triangle = new wxTextCtrl( this, T_CONTROLE, wxT(""), wxPoint(-1, -1), wxSize(-1, -1), wxTE_PROCESS_TAB | wxTE_LEFT, wxDefaultValidator, wxT("textctrl"));
-	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 0, 10, 0, wxT("spinctrl"));
+	epaisseur = new wxSpinCtrl( this, S_CONTROLE, wxT("Epaisseur trait"), wxPoint(-1, -1), wxSize(-1, -1), wxSP_ARROW_KEYS | wxSP_WRAP, 1, 10, 1, wxT("spinctrl"));
 	prop->Add( id_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( id_triangle, 0, wxALIGN_CENTRE|wxALL, 2 );
 	prop->Add( epaisseur_texte, 0, wxALIGN_CENTRE|wxALL, 2 );
