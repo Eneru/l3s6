@@ -144,7 +144,9 @@ void CMainFrame::OnOpen(wxCommandEvent& event)
 		}
 		
 		if (num_tri>0)
+		{
 			options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, true);
+		}
 	}
 }
 
