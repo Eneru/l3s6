@@ -7,6 +7,7 @@ BEGIN_EVENT_TABLE(OpenGLCanvas, wxGLCanvas)
 	EVT_MOTION(OpenGLCanvas::OnMouseMove)
 	EVT_LEFT_UP(OpenGLCanvas::OnLeftUp)
 	EVT_LEFT_DOWN(OpenGLCanvas::OnLeftDown)
+	EVT_RIGHT_DOWN(OpenGLCanvas::OnRightDown)
 END_EVENT_TABLE()
 
 OpenGLCanvas::OpenGLCanvas(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name): wxGLCanvas(parent, id, pos, size, style, name)
@@ -185,5 +186,9 @@ void OpenGLCanvas::OnLeftDown(wxMouseEvent& event)
 }
 
 void OpenGLCanvas::OnLeftUp(wxMouseEvent& event)
+{
+}
+
+void OpenGLCanvas::OnRightDown(wxMouseEvent& event)
 {
 }

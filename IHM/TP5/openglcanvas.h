@@ -23,6 +23,7 @@ class OpenGLCanvas: public wxGLCanvas
 		void OnMouseMove(wxMouseEvent& event);
 		void OnLeftDown(wxMouseEvent& event);
 		void OnLeftUp(wxMouseEvent& event);
+		void OnRightDown(wxMouseEvent& event);
 		
 		bool est_dans(wxString s);
 }; //OpenGLCanvas
