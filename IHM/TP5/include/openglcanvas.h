@@ -5,6 +5,16 @@
 #include <wx/dcclient.h>
 #include <wx/event.h>
 #include <wx/utils.h>
+#include <wx/wx.h>
+
+enum
+{
+	POPUP_SUB1,
+	POPUP_SUB2,
+	POPUP_SUB3,
+	CTX_PPTE,
+	CTX_SUPPR
+};
 
 class OpenGLCanvas: public wxGLCanvas
 {
@@ -13,8 +23,21 @@ class OpenGLCanvas: public wxGLCanvas
 		~OpenGLCanvas(void);
 		void Draw();
 		
+		//Menu Contextuel défaut
+		wxMenu popup;
+		wxMenu* submenu1;		
+		wxMenu* submenu2;		
+		wxMenu* submenu3;
+		
+		//Menu Contextuel triangle
+		wxMenu popup_tri;
+		wxMenuItem* propri;
+		wxMenuItem* supprim;
 	private:
+		int selected_tri;
 		unsigned int etape;
+		bool dejacliqueout;
+		bool dejacliquein;
 	
 		DECLARE_EVENT_TABLE();
 		void OnPaint( wxPaintEvent& event );
@@ -24,8 +47,11 @@ class OpenGLCanvas: public wxGLCanvas
 		void OnLeftDown(wxMouseEvent& event);
 		void OnLeftUp(wxMouseEvent& event);
 		void OnRightDown(wxMouseEvent& event);
+		void OnContextPptes(wxCommandEvent& event);
+		void OnContextSuppr(wxCommandEvent& event);
 		
 		bool est_dans(wxString s);
+		int Est_dans_triangle(int x, int y);
 }; //OpenGLCanvas
 
 #include "mainframe.h"

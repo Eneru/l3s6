@@ -13,6 +13,7 @@ BEGIN_EVENT_TABLE(CMainFrame, wxFrame)
 	EVT_MENU(MENU_VERSION, CMainFrame::OnVersion)
 	EVT_MENU(MENU_TOOLBAR, CMainFrame::OnToolBar)
 	EVT_TOOL(TOOLBAR_DRAW, CMainFrame::OnDraw)
+	EVT_MENU(MENU_AIDE,CMainFrame::OnHelp)
 END_EVENT_TABLE()
 
 
@@ -32,10 +33,10 @@ void CMainFrame::CreateMyToolbar(void)
 	
 	wxBitmap toolBarBitmaps[4];
 	// Initialisation images
-	toolBarBitmaps[0] = wxBitmap(wxT("new.bmp"),wxBITMAP_TYPE_BMP);
-	toolBarBitmaps[1] = wxBitmap(wxT("open.bmp"),wxBITMAP_TYPE_BMP);
-	toolBarBitmaps[2] = wxBitmap(wxT("save.bmp"),wxBITMAP_TYPE_BMP);
-	toolBarBitmaps[3] = wxBitmap(wxT("draw.bmp"),wxBITMAP_TYPE_BMP);
+	toolBarBitmaps[0] = wxBitmap(wxT("image/new.bmp"),wxBITMAP_TYPE_BMP);
+	toolBarBitmaps[1] = wxBitmap(wxT("image/open.bmp"),wxBITMAP_TYPE_BMP);
+	toolBarBitmaps[2] = wxBitmap(wxT("image/save.bmp"),wxBITMAP_TYPE_BMP);
+	toolBarBitmaps[3] = wxBitmap(wxT("image/draw.bmp"),wxBITMAP_TYPE_BMP);
 	
 	//Ajustement format image
 	m_toolbar->SetToolBitmapSize(wxSize(toolBarBitmaps[0].GetWidth(),toolBarBitmaps[0].GetHeight()));
@@ -285,4 +286,15 @@ void CMainFrame::detogglisation()
 {
 	m_toolbar->ToggleTool(TOOLBAR_DRAW, false);
 }
+
+void CMainFrame::OnHelp(wxCommandEvent& event)
+{
+	help.DisplayContents();
+}
+
+
+
+
+
+
 

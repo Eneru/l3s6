@@ -9,6 +9,7 @@
 #include "dialogs.h"
 #include "openglcanvas.h"
 #include <wx/listctrl.h>
+#include <wx/html/helpctrl.h>
 
 
 enum
@@ -23,7 +24,8 @@ enum
 	MENU_TOOLBAR,
 	MENU_VERSION,
 	TOOLBAR_TOOLS,
-	TOOLBAR_DRAW
+	TOOLBAR_DRAW,
+	MENU_AIDE
 };
 
 class CMainFrame: public wxFrame 
@@ -38,6 +40,8 @@ class CMainFrame: public wxFrame
 		wxMenu *display_menu;
 		wxMenu *options_menu;
 		wxMenu *help_menu;
+		
+		wxHtmlHelpController help;
 		
 		//Attributs
 		float epaisseurtraitcourante;
@@ -66,8 +70,9 @@ class CMainFrame: public wxFrame
 		void OnVersion(wxCommandEvent& event);
 		void OnToolBar(wxCommandEvent& event);
 		void OnDraw(wxCommandEvent& event);
+		void OnHelp(wxCommandEvent& event);
 		
-		//Attributs
+		//Toolbar
 		wxToolBar *m_toolbar;
 }; //MyFrame
 #endif

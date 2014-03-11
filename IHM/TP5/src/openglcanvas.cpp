@@ -8,11 +8,19 @@ BEGIN_EVENT_TABLE(OpenGLCanvas, wxGLCanvas)
 	EVT_LEFT_UP(OpenGLCanvas::OnLeftUp)
 	EVT_LEFT_DOWN(OpenGLCanvas::OnLeftDown)
 	EVT_RIGHT_DOWN(OpenGLCanvas::OnRightDown)
+	EVT_MENU(CTX_PPTE, OpenGLCanvas::OnContextPptes)
+	EVT_MENU(CTX_SUPPR, OpenGLCanvas::OnContextSuppr)
 END_EVENT_TABLE()
 
 OpenGLCanvas::OpenGLCanvas(wxWindow *parent, wxWindowID id, const wxPoint& pos, const wxSize& size, long style, const wxString& name): wxGLCanvas(parent, id, pos, size, style, name)
 {
 	etape=0;
+	dejacliqueout=false;
+	dejacliquein=false;
+	selected_tri = -1;
+	submenu1 = new wxMenu;
+	submenu2 = new wxMenu;
+	submenu3 = new wxMenu;
 }
 
 OpenGLCanvas::~OpenGLCanvas(void)
@@ -191,4 +199,122 @@ void OpenGLCanvas::OnLeftUp(wxMouseEvent& event)
 
 void OpenGLCanvas::OnRightDown(wxMouseEvent& event)
 {
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	int w, h;
+	GetClientSize(&w, &h);
+	
+	selected_tri = Est_dans_triangle(event.m_x-w/2, -1*(event.m_y-h/2));
+	
+	if (selected_tri == -1)
+	{
+		if (!dejacliqueout)
+		{
+			//Init
+			submenu1 = new wxMenu;
+			submenu2 = new wxMenu;
+			submenu3 = new wxMenu;
+			
+			submenu1->Append(MENU_OPEN, wxT("Ouvrir fichier"));
+			submenu1->Append(MENU_SAVE, wxT("Sauvegarder fichier"));
+			submenu2->Append(MENU_TRIANGLE_MANAGEMENT, wxT("Gestion des triangles"));
+			submenu3->Append(MENU_COLOR, wxT("Couleurs courantes"));
+			submenu3->Append(MENU_THICKNESS, wxT("Epaisseur courante"));
+	
+			popup.Append(POPUP_SUB1, wxT("Fichier"),submenu1);
+			popup.Append(POPUP_SUB2, wxT("Gestion"),submenu2);
+			popup.Append(POPUP_SUB3, wxT("Valeurs courantes"),submenu3);
+			dejacliqueout = true;
+		}
+	
+		if (courant->num_tri > 0)
+			submenu2->Enable(MENU_TRIANGLE_MANAGEMENT,true);
+		else
+			submenu2->Enable(MENU_TRIANGLE_MANAGEMENT,false);
+			
+		PopupMenu(&popup, event.GetX(), event.GetY());
+	}
+	else
+	{
+		if(!dejacliquein)
+		{
+			//Init
+			propri = new wxMenuItem(&popup_tri,CTX_PPTE, wxT("Proprietes de ce triangle"),wxEmptyString, wxITEM_NORMAL,NULL);
+			supprim = new wxMenuItem(&popup_tri,CTX_SUPPR, wxT("Suppression de ce triangle"),wxEmptyString, wxITEM_NORMAL,NULL);
+			
+			popup_tri.Append(propri);
+			popup_tri.Append(supprim);
+			dejacliquein = true;
+		}
+		
+		PopupMenu(&popup_tri, event.GetX(), event.GetY());
+	}
 }
+
+//Je préfère sélectionner le dernier triangle de la liste sur le clique car il est au-dessus
+//On risquerait sinon de supprimer un triangle sans s'en rendre compte car caché
+int OpenGLCanvas::Est_dans_triangle (int x, int y)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	int result = -1;
+	
+	for (int i = 0; i<courant->num_tri; i++)
+	{
+		if(courant->tab_tri[i].IsPointInTriangle(x,y))
+			result = i;
+	}
+	return result;
+}
+
+void OpenGLCanvas::OnContextPptes(wxCommandEvent& event)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	wxCommandEvent evt( wxEVT_COMMAND_BUTTON_CLICKED, B_PROP);
+	
+	ManagementDialog mdlg(courant, -1, wxT("Gestion de triangles"));
+	
+	mdlg.list->Clear();
+	
+	
+	for (int i=0; i<courant->num_tri; i++)
+	{
+		mdlg.list->Append(courant->liste_nom_triangle[i]);
+	}
+	
+	mdlg.list->SetSelection(selected_tri);
+	//Affichage (Je ne sais pas comment faire apparaître la propriété dans la fenêtre par contre)
+	mdlg.GetEventHandler()->ProcessEvent(evt);
+}
+
+void OpenGLCanvas::OnContextSuppr(wxCommandEvent& event)
+{
+	CMainFrame * courant = (CMainFrame *)GetParent();
+	
+	//On décalle les triangles dans les tableaux
+	for (int i = selected_tri; i<courant->num_tri-1; i++)
+	{
+		courant->tab_tri[i]=courant->tab_tri[i+1];
+		courant->liste_nom_triangle[i]=courant->liste_nom_triangle[i+1];
+	}
+	
+	//On diminue le nombre de triangles
+	courant->num_tri-=1;
+	
+	if (courant->num_tri == 0)
+	{
+		courant->options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

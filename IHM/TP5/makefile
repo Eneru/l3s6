@@ -1,28 +1,35 @@
-CC = g++ -g
+CC = g++
 
-drawtri : main.o mainframe.o dialogs.o triangle.o openglcanvas.o
-	$(CC) -o drawtri main.o mainframe.o dialogs.o triangle.o openglcanvas.o `wx-config --libs --gl-libs`
+MFLAGS = `wx-config --libs --gl-libs`
+IFLAGS = -Iinclude `wx-config --cxxflags`
 
-main.o : main.cpp 
-	$(CC) `wx-config --cxxflags` -c main.cpp -o main.o
+OPATH = obj/
+BPATH = bin/
 
-mainframe.o : mainframe.cpp
-	$(CC) `wx-config --cxxflags` -c mainframe.cpp -o mainframe.o
+vpath %.cpp src/
+vpath %.h include/
+vpath %.o obj/
 
-openglcanvas.o : openglcanvas.cpp
-	$(CC) `wx-config --cxxflags` -c openglcanvas.cpp -o openglcanvas.o
-	
-dialogs.o : dialogs.cpp
-	$(CC) `wx-config --cxxflags` -c dialogs.cpp -o dialogs.o
-	
-triangle.o : triangle.cpp
-	$(CC) `wx-config --cxxflags` -c triangle.cpp -o triangle.o
+drawtri : main.o mainframe.o dialogs.o triangle.o openglcanvas.o | bin
+	$(CC) -o $(BPATH)drawtri $(OPATH)main.o $(OPATH)mainframe.o $(OPATH)dialogs.o $(OPATH)triangle.o $(OPATH)openglcanvas.o $(MFLAGS)
 
+triangle.o : triangle.cpp triangle.h
+openglcanvas.o : openglcanvas.cpp openglcanvas.h mainframe.h
+dialogs.o : dialogs.cpp dialogs.h triangle.h mainframe.h
+mainframe.o : mainframe.cpp mainframe.h dialogs.h openglcanvas.h
+main.o : main.cpp mainframe.h
 
+%.o : %.cpp | obj
+	$(CC) -o $(OPATH)$@ -c $< $(IFLAGS)
 
+obj :
+	@mkdir -p $(OPATH)
 
+bin :
+	@mkdir -p $(BPATH)
 
-
-clean : 
-	rm -f *.o drawtri 
+clean :
+	@rm -f $(OPATH)* $(BPATH)*
+	@rmdir $(OPATH) $(BPATH)
+	@echo "Nettoye."
 	
