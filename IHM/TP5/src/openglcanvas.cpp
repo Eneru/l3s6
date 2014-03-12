@@ -56,7 +56,6 @@ void OpenGLCanvas::OnSize(wxSizeEvent& event)
 	wxGLCanvas::OnSize(event);
 	int w, h;
 	GetClientSize(&w, &h);
-	glViewport(0, 0, (GLint) w, (GLint) h);
 }
 
 void OpenGLCanvas::OnEraseBackground(wxEraseEvent& event)
@@ -72,6 +71,7 @@ void OpenGLCanvas::Draw()
 	glLoadIdentity();
 	int w, h;
 	GetClientSize(&w, &h);
+	glViewport(0, 0, (GLint) w, (GLint) h);
 	glOrtho(-w/2., w/2., -h/2., h/2., -1., 3.);
 	glMatrixMode( GL_MODELVIEW );
 	glLoadIdentity();
@@ -107,6 +107,7 @@ void OpenGLCanvas::OnMouseMove(wxMouseEvent& event)
 	if (courant->num_tri >= 5 || etape == 0 || !courant->is_drawing)
 	{
 		etape=0;
+		SwapBuffers();
 		return;
 	}
 	
@@ -122,21 +123,32 @@ void OpenGLCanvas::OnMouseMove(wxMouseEvent& event)
 					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
 					glVertex2f(event.m_x-w/2,-1*(event.m_y-h/2));
 				glEnd();
-				glFlush();break;
+				break;
 				
 		case 2 :courant->tab_tri[courant->num_tri].colour = courant->couleurcourante;
-				int r,g,b;
-				r = (int)courant->tab_tri[courant->num_tri].colour->Red();
-				g = (int)courant->tab_tri[courant->num_tri].colour->Green();
-				b = (int)courant->tab_tri[courant->num_tri].colour->Blue();
-				glColor3ui(r,g,b);
+				float r,g,b;
+				r = courant->tab_tri[courant->num_tri].colour->Red();
+				g = courant->tab_tri[courant->num_tri].colour->Green();
+				b = courant->tab_tri[courant->num_tri].colour->Blue();
+				glColor3f(r,g,b);
 				glBegin(GL_TRIANGLES);
 					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
 					glVertex2f(courant->tab_tri[courant->num_tri].p2.x,courant->tab_tri[courant->num_tri].p2.y);
 					glVertex2f(event.m_x-w/2,-1*(event.m_y-h/2));
 				glEnd();
-				glFlush();break;
+				glColor3ui(0,0,0);
+				glLineWidth(courant->tab_tri[courant->num_tri].thickness);
+				glBegin(GL_LINES);
+					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
+					glVertex2f(courant->tab_tri[courant->num_tri].p2.x,courant->tab_tri[courant->num_tri].p2.y);
+					glVertex2f(courant->tab_tri[courant->num_tri].p2.x,courant->tab_tri[courant->num_tri].p2.y);
+					glVertex2f(event.m_x-w/2,-1*(event.m_y-h/2));
+					glVertex2f(courant->tab_tri[courant->num_tri].p1.x,courant->tab_tri[courant->num_tri].p1.y);
+					glVertex2f(event.m_x-w/2,-1*(event.m_y-h/2));
+				glEnd();
+				break;
 	}
+	glFlush();
 	SwapBuffers();
 }
 
@@ -239,7 +251,7 @@ int OpenGLCanvas::Est_dans_triangle (int x, int y)
 {
 	CMainFrame * courant = (CMainFrame *)GetParent();
 	
-	for (int courant->num_tri; i>0; i--)
+	for (int i = courant->num_tri-1; i>=0; i--)
 	{
 		if(courant->tab_tri[i].IsPointInTriangle(x,y))
 			return i;
@@ -285,6 +297,8 @@ void OpenGLCanvas::OnContextSuppr(wxCommandEvent& event)
 	{
 		courant->options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
 	}
+	Draw();
+	SwapBuffers();
 }
 
 

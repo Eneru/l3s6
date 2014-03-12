@@ -61,6 +61,8 @@ void CMainFrame::OnNew(wxCommandEvent& event)
 	options_menu->Enable(MENU_TRIANGLE_MANAGEMENT, false);
 	num_tri = 0;
 	m_toolbar->ToggleTool(TOOLBAR_DRAW, false);
+	oglc->Draw();
+	oglc->SwapBuffers();
 }
 
 void CMainFrame::OnOpen(wxCommandEvent& event)
@@ -280,6 +282,8 @@ void CMainFrame::OnDraw(wxCommandEvent& event)
 	}
 	else
 		is_drawing = !is_drawing;
+	oglc->Draw();
+	oglc->SwapBuffers();
 }
 
 void CMainFrame::detogglisation()

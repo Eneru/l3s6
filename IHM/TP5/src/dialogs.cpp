@@ -185,6 +185,8 @@ void ManagementDialog::OnSuppr(wxCommandEvent& event)
 			list->Append(courant->liste_nom_triangle[i]);
 		list->SetSelection(0);
 	}
+	courant->oglc->Draw();
+	courant->oglc->SwapBuffers();
 }
 
 BEGIN_EVENT_TABLE(PropDialog, wxDialog)
@@ -269,6 +271,8 @@ void PropDialog::OnValidProp(wxCommandEvent& event)
 		
 		default : courant->tab_tri[courant->num_triangle_courant].colour = wxBLACK; break;
 	}
+	courant->oglc->Draw();
+	courant->oglc->SwapBuffers();
 	this->Destroy();
 }
 

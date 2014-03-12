@@ -51,6 +51,7 @@ class Triangle
 		const wxColour * colour;
 		float thickness;
 		
+		int ComputeZCoordinate(point p1, point p2, int x, int y);
 		bool IsPointInTriangle(int x, int y);
 };
 
