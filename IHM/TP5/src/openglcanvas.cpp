@@ -18,9 +18,6 @@ OpenGLCanvas::OpenGLCanvas(wxWindow *parent, wxWindowID id, const wxPoint& pos, 
 	dejacliqueout=false;
 	dejacliquein=false;
 	selected_tri = -1;
-	submenu1 = new wxMenu;
-	submenu2 = new wxMenu;
-	submenu3 = new wxMenu;
 }
 
 OpenGLCanvas::~OpenGLCanvas(void)

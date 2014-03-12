@@ -6,15 +6,8 @@
 #include <wx/event.h>
 #include <wx/utils.h>
 #include <wx/wx.h>
+#include "triangle.h"
 
-enum
-{
-	POPUP_SUB1,
-	POPUP_SUB2,
-	POPUP_SUB3,
-	CTX_PPTE,
-	CTX_SUPPR
-};
 
 class OpenGLCanvas: public wxGLCanvas
 {

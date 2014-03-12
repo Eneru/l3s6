@@ -11,19 +11,6 @@
 #include "triangle.h"
 #include "mainframe.h"
 
-enum
-{
-	ID_TEXT = 10000,
-	SLIDER_EPAISSEUR,
-	BOITE_COULEUR,
-	LISTE_TRIANGLE,
-	B_PROP,
-	B_SUPPR,
-	T_CONTROLE,
-	S_CONTROLE,
-	BOITE_COULEUR2
-};
-
 
 class VersionDialog: public wxDialog
 {

@@ -12,22 +12,6 @@
 #include <wx/html/helpctrl.h>
 
 
-enum
-{
-	MENU_NEW,
-	MENU_OPEN,
-	MENU_SAVE,
-	MENU_QUIT,
-	MENU_THICKNESS,
-	MENU_COLOR,
-	MENU_TRIANGLE_MANAGEMENT,
-	MENU_TOOLBAR,
-	MENU_VERSION,
-	TOOLBAR_TOOLS,
-	TOOLBAR_DRAW,
-	MENU_AIDE
-};
-
 class CMainFrame: public wxFrame 
 {
 	public:
