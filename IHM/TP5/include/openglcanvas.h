@@ -29,8 +29,6 @@ class OpenGLCanvas: public wxGLCanvas
 	private:
 		int selected_tri;
 		unsigned int etape;
-		bool dejacliqueout;
-		bool dejacliquein;
 	
 		DECLARE_EVENT_TABLE();
 		void OnPaint( wxPaintEvent& event );
