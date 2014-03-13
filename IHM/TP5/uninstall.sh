@@ -1,10 +1,10 @@
 #!/bin/sh
 #Clean de tous les .o et le bin
 
-BIN=bin/drawtri
+OBJ=obj
 QUESTION="Etes-vous sur de vouloir desinstaller ? (y/n) "
 
-if [ -f "$BIN" ]
+if [ -d "$OBJ" ]
 	then
 		read -p "$QUESTION" REP
 		if [ "$REP" = "y" ] || [ "$REP" = "yes" ]

@@ -40,6 +40,8 @@ class CMainFrame: public wxFrame
 		OpenGLCanvas * oglc;
 		
 		void detogglisation();
+		void desauvegardisation();
+		void sauvegardisation();
 		
 	private:		
 		DECLARE_EVENT_TABLE();
