@@ -1,0 +1,7 @@
+#Ignorer les objets
+*.o
+#Ignorer les exécutables
+TP*/drawtri
+TP5/bin
+#Ignorer les archives
+*.tar.gz
