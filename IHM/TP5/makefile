@@ -33,3 +33,6 @@ clean :
 	@rmdir $(OPATH) $(BPATH)
 	@echo "Nettoye."
 	
+archive :
+	@tar -f Meyer.Jeremy.tar.gz -cvz help/ include/ tp5.pdf uninstall.sh image/ launcher.sh src/ triangles/ makefile
+	@echo "Archive."

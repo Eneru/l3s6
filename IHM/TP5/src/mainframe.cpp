@@ -282,6 +282,11 @@ void CMainFrame::OnDraw(wxCommandEvent& event)
 	}
 	else
 		is_drawing = !is_drawing;
+		
+	if (is_drawing)
+		desauvegardisation();
+	else
+		sauvegardisation();
 	oglc->Draw();
 	oglc->SwapBuffers();
 }
@@ -296,9 +301,19 @@ void CMainFrame::OnHelp(wxCommandEvent& event)
 	help.DisplayContents();
 }
 
+void CMainFrame::desauvegardisation()
+{
+	m_toolbar->EnableTool(MENU_SAVE, false);
+	file_menu->Enable(MENU_SAVE, false);
+	oglc->submenu1->Enable(MENU_SAVE,false);
+}
 
-
-
+void CMainFrame::sauvegardisation()
+{
+	m_toolbar->EnableTool(MENU_SAVE, true);
+	file_menu->Enable(MENU_SAVE, true);
+	oglc->submenu1->Enable(MENU_SAVE,true);
+}
 
 
 
