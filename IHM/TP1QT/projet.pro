@@ -5,4 +5,4 @@ QT += core \
 HEADERS += qonvertisseur.h
 SOURCES += qonvertisseur.cpp \
 	main.cpp
-FORMS += qonvertisseur.ui
+FORMS += mainwindow.ui

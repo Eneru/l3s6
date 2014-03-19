@@ -1,14 +1,15 @@
-#ifndef _QONVERTISSEUR_H_
-#define _QONVERTISSEUR_H_
-// Inclure le fichier contenant la definition de la fenetre
-#include "ui_qonvertisseur . h"
+#ifndef QONVERTISSEUR__H_
+#define QONVERTISSEUR__H_
+
+#include "ui_mainwindow.h"
 
 class Qonvertisseur : public QMainWindow, private Ui::MainWindow
 {
 	Q_OBJECT
-// Necessaire a QT
-public :
-	Qonvertisseur (QWidget∗parent = 0);
-	~Qonvertisseur();
+	
+public : 
+	Qonvertisseur (QWidget* parent = 0);
+	~Qonvertisseur (void);
 };
-#endif /* Fin _QONVERTISSEUR_H_ */
+
+#endif //QONVERTISSEUR__H_

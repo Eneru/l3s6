@@ -1,12 +1,13 @@
 #include <QtGui>
-#include "qconvertisseur.h"
+#include "qonvertisseur.h"
 
-int main (int argc, char * argv[])
+int main(int argc, char * argv[])
 {
-	QApplication app (argc,argv);
+	QApplication app(argc,argv);
 	
 	Qonvertisseur mainwin;
 	mainwin.show();
 	
 	return app.exec();	
 }
+
