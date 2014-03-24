@@ -5,9 +5,8 @@
 
 /* Variables globales */
 int coef = 5;
-int thetabrasG = 0;
-int thetabrasD = 0;
-int thetaTorse = 0;
+int phi = 0;
+int theta = 0;
 
 /* dimensions de la fenetre */
 int width = 600;
@@ -111,26 +110,60 @@ void drawCube()
 /*************************************************************************/
 
 void dessiner_caractere ()
-{
+{		
 	//Torse
-	glScalef(1,2,1);
-	glRotatef(thetaTorse,0,0,0);
-	drawCube();
+	glRotatef(phi,0,1,0);
 	glPushMatrix();
+	glScalef(1,1.5,0.5);
+	drawCube();
+	glPopMatrix();
 	
 	//Bras Gauche
-	glRotatef(thetabrasG,-0.5,1,0);
-	glTranslatef(-0.5,0,0);
-	glScalef(0.5,1,1);
-	drawCube();
+	glPushMatrix();
+		glTranslatef(-0.5,0.75,0);
+		glRotatef(-(theta)-30,0,0,1);
+		glTranslatef(0,-0.5,0);
+		glScalef(0.35,1,0.5);
+		drawCube();
 	glPopMatrix();
 	
 	//Bras Droit
 	glPushMatrix();
-	glTranslatef(0.5,0,0);
-	glScalef(0.5,1,1);
-	glRotatef(thetabrasD,0,0,1);
-	drawCube();
+		glTranslatef(0.5,0.75,0);
+		glRotatef(theta+30,0,0,1);
+		glTranslatef(0,-0.5,0);
+		glScalef(0.35,1,0.5);
+		drawCube();
+	glPopMatrix();
+	
+	//Tete
+	glPushMatrix();
+		glTranslatef(0.0,1.15,0.0);
+		glScalef(0.5,0.5,0.25);
+		drawCube();
+	glPopMatrix();
+	
+	//Jambe Droite
+	glPushMatrix();
+		glTranslatef(0.5,-1,0);
+		glRotatef(30,0,0,1);
+		glScalef(0.5,1.25,0.5);
+		drawCube();
+	glPopMatrix();
+	
+	//Jambe Gauche
+	glPushMatrix();
+		glTranslatef(-0.5,-1,0);
+		glRotatef(-30,0,0,1);
+		glScalef(0.5,1.25,0.5);
+		drawCube();
+	glPopMatrix();
+	
+	//Sol
+	glPushMatrix();
+		glTranslatef(0,-2,0);
+		glScalef(10,0.001,10);
+		drawCube();
 	glPopMatrix();
 }
 
@@ -173,23 +206,21 @@ void keyboard(unsigned char keycode, int x, int y)
 	printf("Touche frapee : %c (code ascii %d)\n",keycode, keycode);
 	switch(keycode)
 	{
-		case 97 : coef++; break; // a
+		case 'a' : coef++; break; // a
 		
-		case 65 : coef--; break; // A
+		case 'A' : coef--; break; // A
 		
-		case 113 : exit(0); break; // q
+		case 'q' : // q
 		
-		case 120 : thetabrasD+=10 ; break; // x
+		case 'Q' : exit(0); break; // Q
 		
-		case 88 : thetabrasD-=10 ; break; // X
+		case 'f' : phi+=10 ; break; // f
 		
-		case 121 : thetabrasG+=10 ; break; // y
+		case 'F' : phi-=10 ; break; // F
 		
-		case 89 : thetabrasG-=10 ; break; // Y
+		case 't' : theta+=10 ; break; // t
 		
-		case 122 : thetaTorse+=10 ; break; // z
-		
-		case 90 : thetaTorse-=10 ; break; // Z
+		case 'T' : theta-=10 ; break; // T
 	}
 	glutPostRedisplay();
 }
