@@ -16,3 +16,9 @@ public class Serveur {
        catch (MalformedURLException e) { System.out.println(e) ; }
   }
 }
+
+//Message hérite de Remote, utilise RemoteException
+//MessageImpl_Stub hérite de java.rmi.server.RemoteStub, implémente Message et java.rmi.Remote et utilise java.lang.reflect.Method
+//MessageImpl hérite de UnicastRemoteObject, implémente Message
+//Client utilise Message
+//Serveur utilise MessageImpl

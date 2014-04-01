@@ -22,8 +22,7 @@ public class Client
 
 	try {
 	    String hostname = super.getParameter("serveur");
-	    annuaire = (Annuaire)
-		Naming.lookup("rmi://"+hostname+"/LAnnuaire");
+	    annuaire = (Annuaire)Naming.lookup("rmi://"+hostname+"/LAnnuaire");
 	} catch (Exception e) {
 	    System.err.println(e);
 	    e.printStackTrace();
