@@ -19,6 +19,18 @@ public class AnnuaireImpl
 	if (resultat == null) resultat = "Nom inconnu : " + nom;
 	return resultat;
     }
+    
+    public void ajout(String nom, String num) throws RemoteException
+    {
+		numeros.put(nom,num);
+		System.out.println(nom+" a ete ajoute avec pour num : "+num);
+	}
+    
+    public void supprime(String nom) throws RemoteException
+    {
+		numeros.remove(nom);
+		System.out.println(nom+" a ete supprime de l'annuaire");
+	}
 
     public static void main(String[] args) {
 	try {
