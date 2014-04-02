@@ -1,6 +1,7 @@
 import java.rmi.*; 
 import java.util.*; 
 import java.rmi.server.UnicastRemoteObject;
+import java.awt.*; 
 
 public class AnnuaireImpl extends UnicastRemoteObject implements Annuaire 
 {
@@ -31,6 +32,15 @@ public class AnnuaireImpl extends UnicastRemoteObject implements Annuaire
     {
 		numeros.remove(nom);
 		System.out.println(nom+" a ete supprime de l'annuaire");
+	}
+	
+	public java.awt.List affiche() throws java.rmi.RemoteException
+	{
+		java.awt.List list = new java.awt.List(3);
+		Iterator it = numeros.keySet().iterator();
+		while(it.hasNext())
+			list.add(it.next().toString());
+		return list;
 	}
 
     public static void main(String[] args) 
