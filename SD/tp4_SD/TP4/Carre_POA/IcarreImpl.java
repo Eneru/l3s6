@@ -1,9 +1,10 @@
 import org.omg.CORBA.*;
 
-public class IcarreImpl extends _IcarreStub {
-    public int carre (int source) {
-	System.out.println( "carre : requete recue pour le nombre : " 
-			    + source );
-	return source*source;
+public class IcarreImpl extends IcarrePOA 
+{
+    public void carre (int source, org.omg.CORBA.IntHolder resultat) 
+    {
+		System.out.println( "carre : requete recue pour le nombre : "+ source );
+		resultat.value=source*source;
     }
 }

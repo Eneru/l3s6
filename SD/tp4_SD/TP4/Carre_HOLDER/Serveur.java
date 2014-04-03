@@ -11,9 +11,9 @@ public class Serveur {
 
 	    String ior = orb.object_to_string( myobj );
 	    
-            System.out.println( ior );
+        System.out.println( ior );
 	    
-      	    orb.run();
+      	orb.run();
 	}
 	catch( org.omg.CORBA.SystemException ex ) { ex.printStackTrace();}
 	//	catch( org.omg.CORBA.UserException ex ) { ex.printStackTrace();}

@@ -1,0 +1,2 @@
+\rm -f *~ *.class
+\rm -f *Operations.java *Helper.java *Holder.java *POA.java *Stub.java *.ior iorfile.java
