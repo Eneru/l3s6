@@ -1,6 +1,6 @@
 LINUX= -lnsl
 CC=gcc
-CFLAGS=-Wall
+CFLAGS=-std=c99 -Wall
 #----------------------------------------------
 all : serveur client 
 #----------------------------------------------

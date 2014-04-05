@@ -1,0 +1,3 @@
+1. Le résultat n'est pas toujours identique car la variable qu'on incrémente n'est pas verrouiller pour la lecture/écriture ce qui implique que certains threads peuvent lire une valeur qui n'est déjà plus à jour !
+
+2. Wait() permet de mettre un thread en attente de signal et NotifyAll() envoie un signal à tous les threads en attente pour les réveiller.

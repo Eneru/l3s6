@@ -11,12 +11,17 @@ public class Client {
 	    System.exit(0);
 	}
 	try {
-	    Registry Naming = LocateRegistry.getRegistry(Integer.parseInt(args[0]));
-	    Message b =(Message) Naming.lookup("MessageRMI");
-	    System.out.println("Le client recoit : "+ b.messageDistant()); 
+		int[][] a = { {1, 0, 0}, {0, 2, 0}, {0, 0, 3} };
+		int[][] b = { {1, 2, 3}, {1, 2, 3}, {1, 2, 3} };
+		
+		int[][] res;
+		
+	    OpMatrice op =(OpMatrice) Naming.lookup("rmi://"+args[0]+"/Matrice");
+	    res = op.multiplicationMatrice(a,b);
+	    op.AffichageMatrice(res);
 	}
 	catch (NotBoundException re) { System.out.println(re) ; }
 	catch (RemoteException re) { System.out.println(re) ; }
-	//catch (MalformedURLException e) { System.out.println(e) ; }
+	catch (MalformedURLException e) { System.out.println(e) ; }
     }
 }

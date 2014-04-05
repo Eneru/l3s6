@@ -105,7 +105,7 @@ Regardez puis executez le script "construit".
 1) Dans le repertoire "MessageClone" 
    lancer "pkill rmir ; export CLASSPATH="."; rmiregistry &".
 2) Tapez "cd tServeur" puis executez le Serveur. 
-   Cela ne fonctionne pas ... Pourquoi ? 
+   Cela ne fonctionne pas ... Pourquoi ?
    Une fois cette question resolue et le Serveur 
    lance' :
 4) Sur une autre machine (qui va heberger le Client), se 

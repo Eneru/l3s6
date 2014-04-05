@@ -1,71 +1,116 @@
-class ZonePartage extends Thread {
+class ZonePartage extends Thread 
+{
     int nLecteurs;
     int nEcrivainsEnAttente;
     Object accesslock;
+    boolean lock;
 
-    ZonePartage() {
+    ZonePartage() 
+    {
+		nLecteurs = 0;
+		nEcrivainsEnAttente = 0;
+		lock = false;
         accesslock = new Object();
     }
 
-    public void accesPartage() {
-	synchronized(accesslock) {
-	    /* ?? */
-	}
+    public synchronized void accesPartage() 
+    {
+		synchronized(accesslock)
+		{
+			nLecteurs++;
+			while(nEcrivainsEnAttente>0 && lock) // On attend la disponibilité de la ressource
+				try 
+				{
+					wait();
+				}
+				catch(InterruptedException e) {}; 
+		}
     }
     
-    public void retourPartage() {
-	synchronized(accesslock) {
-	    /* ?? */
-	}
+    public synchronized void retourPartage() 
+    {
+		synchronized(accesslock)
+		{
+			nLecteurs--;
+		}
     }
     
-    public void accesExclusif() {
-	synchronized(accesslock) {
-	    /* ?? */
-	}
+    public synchronized void accesExclusif() 
+    {
+		synchronized(accesslock) 
+		{
+			nEcrivainsEnAttente++;
+			if (lock==true) // bloque si quelqu'un écrit déjà
+			{
+				try 
+				{
+					wait();
+				} 
+				catch(InterruptedException e) {}; 
+			}
+		}
     }
     
-    public void retourExclusif() {
-	synchronized(accesslock) {
-	    /* ?? */
-	}
+    public synchronized void retourExclusif() 
+    {
+		synchronized(accesslock) 
+		{
+			nEcrivainsEnAttente--;
+			lock=false; // On débloque la ressource
+			
+			notifyAll();
+		}
     }
 }    
 
-class Reader extends Thread {
+class Reader extends Thread 
+{
     ZonePartage z;
-    Reader (ZonePartage z, String name) {
-	super(name);
-	this.z = z;
+    int nbLu = 0;
+    
+    Reader (ZonePartage z, String name) 
+	{
+		super(name);
+		this.z = z;
     }
-    public void run() {
-        while (true) {
-	    lecture();
-        }
+    public void run() 
+    {
+        while (true)
+			lecture();
     }
-    public void lecture() {
-	z.accesPartage();
-	System.out.println("Lecture");
-	z.retourPartage();
+    
+    public void lecture() 
+    {
+		z.accesPartage();
+		nbLu++;
+		System.out.println("Lecture " +nbLu);
+		z.retourPartage();
     }
     
 }
 
 class Writer extends Thread {
     ZonePartage z;
-    Writer (ZonePartage z, String name) {
-	super(name);
-	this.z = z;
+    int nbEcrit=0;
+    
+    Writer (ZonePartage z, String name) 
+    {
+		super(name);
+		this.z = z;
     }
-    public void run() {
-        while (true) {
-	    ecriture();
-        }
+    
+    public void run() 
+    {
+        while (true)
+			ecriture();
     }
-    public void ecriture() {
-	z.accesExclusif();
-	System.out.println("Ecriture");
-	z.retourExclusif();
+    
+    public void ecriture()
+    {
+		z.accesExclusif();
+		nbEcrit++;
+		System.out.println("Ecriture "+nbEcrit);
+		z.retourExclusif();
     }
 }
 

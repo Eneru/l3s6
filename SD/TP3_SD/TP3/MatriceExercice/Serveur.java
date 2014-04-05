@@ -11,12 +11,11 @@ public class Serveur {
 	    System.exit(0);
 	}
        try {
-	   Registry Naming = LocateRegistry.createRegistry(Integer.parseInt(args[0]));
-	   MessageImpl objLocal = new MessageImpl();
-	   Naming.rebind("MessageRMI",objLocal) ;
-	   System.out.println("Serveur pret"); 
+		   LocateRegistry.createRegistry(Integer.parseInt(args[0]));
+		   OpMatriceImpl objLocal = new OpMatriceImpl ();
+		   Naming.rebind("rmi://localhost:"+args[0]+"/Matrice",objLocal) ;
+		   System.out.println("Serveur pret");
        }
-       catch (RemoteException re) { System.out.println(re) ; }
-       //catch (MalformedURLException e) { System.out.println(e) ; }
+       catch (Exception re) { System.out.println(re) ; }
   }
 }
