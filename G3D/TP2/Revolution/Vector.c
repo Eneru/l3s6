@@ -7,6 +7,10 @@
 
 #include "Vector.h"
 
+/* dimensions de la fenetre */
+int width = 600;
+int height = 600;
+
 //------------------------------------------------
 
 Vector V_new(float x, float y, float z)

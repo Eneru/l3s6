@@ -1,0 +1,4 @@
+INDEX VERSION 1.126+/users/info/il3/jeremy.meyer/L3S6/IHM/TPAndroid/.metadata/.plugins/org.eclipse.jdt.core
+1631844152.index
+3648521866.index
+634534876.index
