@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <GL/glut.h>
+#include <GL/glx.h>
 
 #include "Vector.h"
 
@@ -50,5 +52,9 @@ void P_print(Polygon *P, char *message);
 void  P_tournerAutourDeLAxeY(Polygon *P, double radians);
 // tourne tous les points de P d'un angle de radians
 // radians autour de l'axe Y.
+
+float P_ConvertVertex_X(Polygon *P, int i);
+
+float P_ConvertVertex_Y(Polygon *P, int i);
 
 #endif // __POLYGON_H__

@@ -194,3 +194,5 @@ Client sur une machine3 : (lancement du Client
 
 Reecrire l'une des applications vu dans les exos precedents en 
 utilisant le mecanisme de telechargement automatique.
+
+// NON FONCTIONNEL !

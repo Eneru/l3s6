@@ -8,14 +8,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include <GL/glut.h>
-#include <GL/glx.h>
 
-#include "Vector.h"
+#include "Polygon.h"
 
-/* dimensions de la fenetre */
-int width = 600;
-int height = 600;
+extern int width;
+extern int height;
+
+Polygon * P;
 
 //------------------------------------------------------------
 
@@ -44,7 +43,7 @@ void drawRepere()
 
 void drawQuadBorder()
 {
-	glColor3d(drand48(),drand48(),drand48());
+	glColor3f(0.2,0.5,0.3);
 	glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 	glBegin(GL_QUADS);
 		glVertex3f(-1,1,-0.5);
@@ -74,6 +73,7 @@ void display()
 	// dessiner ici
 	drawQuadBorder();
 	drawRepere();
+	P_draw(P);
 
 	glutSwapBuffers();
 }
@@ -83,9 +83,15 @@ void display()
 void keyboard(unsigned char keycode, int x, int y)
 {
 	printf("Touche frapee : %c (code ascii %d)\n",keycode, keycode);
-	/* touche ECHAP */
-	if (keycode==27)
-		exit(0);
+	
+	switch (keycode)
+	{
+		case 27 : exit(0);	break; /* touche ECHAP */
+		
+		case 99 : P->_is_closed = !P->_is_closed; /* touche c et C */
+		
+		case 73 : break;			
+	}
 
 	glutPostRedisplay();
 }
@@ -114,7 +120,10 @@ void mouse(int button, int state, int x, int y)
     {
     case GLUT_LEFT_BUTTON :
 		if(state==GLUT_DOWN)
+		{
 			fprintf(stderr,"Clic gauche\n");
+			P_addVertex(P,V_new(x,y,0));
+		}
 		break;
 
     case GLUT_MIDDLE_BUTTON :
@@ -124,7 +133,11 @@ void mouse(int button, int state, int x, int y)
 
     case GLUT_RIGHT_BUTTON :
 		if(state==GLUT_DOWN)
+		{
 			fprintf(stderr,"Clic droit.\n");
+			if(P->_nb_vertices>0)
+				P_removeLastVertex(P);
+		}
 		break;
     }
 	glutPostRedisplay();
@@ -136,6 +149,8 @@ void mouse(int button, int state, int x, int y)
 
 int main(int argc, char *argv[])
 {
+	P=malloc(sizeof(Polygon));
+	P_init(P);
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH);
 	glutInitWindowSize(width, height);
