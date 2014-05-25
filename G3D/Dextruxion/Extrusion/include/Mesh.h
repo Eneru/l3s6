@@ -48,6 +48,8 @@ typedef struct
 Mesh* M_new();
 // Nouveau maillage
 
+void M_init(Mesh *m);
+
 void M_print(Mesh *P, char *message);
 // affichage d'un maillage pour le débug
 

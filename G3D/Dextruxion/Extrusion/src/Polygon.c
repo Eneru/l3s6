@@ -1,7 +1,12 @@
 #include "Polygon.h"
 
-extern int width;
-extern int height;
+void P_init(Polygon *p)
+{
+	p->_nb_vertices = 0;
+	p->_is_closed = 0;
+	p->_is_filled = 0;
+	p->_is_convex = 0;
+}
 
 Polygon* P_new()
 {
@@ -13,10 +18,7 @@ Polygon* P_new()
 		exit(EXIT_FAILURE);
 	}
 	
-	p->_nb_vertices = 0;
-	p->_is_closed = 0;
-	p->_is_filled = 0;
-	p->_is_convex = 0;
+	P_init(p);
 	
 	return p;
 }

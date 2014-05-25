@@ -7,9 +7,6 @@
 
 #include "Perlin.h"
 
-extern int width;
-extern int height;
-
 //-----------------------------------------------------------
 
 static Vector _vectorInterpolate(Vector v1, Vector v2, double blend)

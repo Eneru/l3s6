@@ -13,6 +13,8 @@
 #include <math.h>
 
 #define ERROR_CST 1e-4
+#define width 650
+#define height 650
 
 static inline int zero(double a) {return a < (0 + ERROR_CST) && a > (0 - ERROR_CST);}
 // retourne 1 si a==0

@@ -7,10 +7,6 @@
 
 #include "Vector.h"
 
-/* dimensions de la fenetre */
-int width = 650;
-int height = 650;
-
 
 //------------------------------------------------
 
@@ -192,7 +188,7 @@ void V_uxUyFromUz(Vector u_z, Vector *u_x, Vector *u_y)
 	}
 }
 
-Vector V_rotate(Point m, Point o, Point a, Point b)
+Vector V_rotate(Point m, Point centre, Point v1, Point v2)
 {
 	double x, y, z;
 	Vector u_x_v1, u_y_v1, u_z_v1, u_x_v2, u_y_v2, u_z_v2;

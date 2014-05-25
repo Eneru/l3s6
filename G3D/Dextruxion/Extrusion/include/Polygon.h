@@ -30,6 +30,8 @@ typedef struct
 Polygon* P_new();
 // initialise un polygone (0 sommets)
 
+void P_init(Polygon *p);
+
 void   P_copy(Polygon *original, Polygon *copy);
 // original et copie sont deux polygones déjà alloués.
 // Cette fonction copie les donnée

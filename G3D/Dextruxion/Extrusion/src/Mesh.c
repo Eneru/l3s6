@@ -1,8 +1,5 @@
 #include "Mesh.h"
 
-extern int width;
-extern int height;
-
 Quad Q_new (Vector v1, Vector v2, Vector v3, Vector v4)
 {
 	Quad q;
@@ -41,6 +38,12 @@ void Q_draw(Quad *q)
     glEnd ();
 }
 
+void M_init(Mesh *m)
+{
+	m->_nb_quads = 0;
+	m->_is_filled = 0;
+}
+
 Mesh* M_new()
 {
 	Mesh* m = malloc(sizeof(Mesh));
@@ -51,8 +54,7 @@ Mesh* M_new()
 		exit(EXIT_FAILURE);
 	}
 	
-	m->_nb_quads = 0;
-	m->_is_filled = 0;
+	M_init(m);
 	
 	return m;
 }
